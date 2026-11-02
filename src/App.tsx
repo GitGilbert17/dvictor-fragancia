@@ -28,9 +28,6 @@ import { CampaignBanners } from './components/CampaignBanners';
 import { Catalog } from './components/Catalog';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { CartDrawer } from './components/CartDrawer';
-import { AboutContact } from './components/AboutContact';
-import { ScentQuizModal } from './components/ScentQuizModal';
-import { BrandSystemModal } from './components/BrandSystemModal';
 import { SearchModal } from './components/SearchModal';
 import { WishlistModal } from './components/WishlistModal';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
@@ -45,8 +42,6 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
   const [selectedPerfume, setSelectedPerfume] = useState<Perfume | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isQuizOpen, setIsQuizOpen] = useState(false);
-  const [isBrandSystemOpen, setIsBrandSystemOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [orderConfirmation, setOrderConfirmation] = useState<{
@@ -193,8 +188,6 @@ export default function App() {
         wishlistCount={wishlist.length}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
-        onOpenBrandSystem={() => setIsBrandSystemOpen(true)}
-        onOpenQuiz={() => setIsQuizOpen(true)}
         onScrollToSection={handleScrollToSection}
       />
 
@@ -251,9 +244,6 @@ export default function App() {
                 onToggleWishlist={handleToggleWishlist}
               />
             </div>
-
-            {/* 6. Sobre Nosotros & Showroom Piantini */}
-            <AboutContact />
           </>
         )}
 
@@ -268,19 +258,11 @@ export default function App() {
             />
           </div>
         )}
-
-        {activeTab === 'sobre-nosotros' && (
-          <div className="pt-4">
-            <AboutContact />
-          </div>
-        )}
       </main>
 
       {/* Footer */}
       <Footer
         onNavigate={handleNavigate}
-        onOpenBrandSystem={() => setIsBrandSystemOpen(true)}
-        onOpenQuiz={() => setIsQuizOpen(true)}
       />
 
       {/* PDP Modal (FragranceNet Reference 2) */}
@@ -301,21 +283,6 @@ export default function App() {
         onRemoveItem={handleRemoveFromCart}
         onClearCart={handleClearCart}
         onOrderPlaced={handleOrderPlaced}
-      />
-
-      {/* Scent Quiz Modal */}
-      <ScentQuizModal
-        isOpen={isQuizOpen}
-        onClose={() => setIsQuizOpen(false)}
-        perfumes={PERFUMES_DATA}
-        onSelectPerfume={(perfume) => setSelectedPerfume(perfume)}
-        onAddToCart={(perfume, sizeMl) => handleAddToCart(perfume, sizeMl, 1)}
-      />
-
-      {/* Official Brand System & Logos Modal */}
-      <BrandSystemModal
-        isOpen={isBrandSystemOpen}
-        onClose={() => setIsBrandSystemOpen(false)}
       />
 
       {/* Instant Search Modal */}

@@ -88,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onExploreFeatured }) =>
           </div>
           <div className="flex items-center gap-2 text-[#D4AF37]">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Showroom Privado en Piantini</span>
+            <span>Atención Personalizada & WhatsApp VIP</span>
           </div>
         </div>
       </div>

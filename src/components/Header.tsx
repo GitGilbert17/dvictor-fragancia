@@ -19,7 +19,7 @@
  */
 
 import React, { useState } from 'react';
-import { ShoppingBag, Search, Heart, Menu, X, Sparkles } from 'lucide-react';
+import { ShoppingBag, Search, Heart, Menu, X } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 
 interface HeaderProps {
@@ -30,8 +30,8 @@ interface HeaderProps {
   wishlistCount: number;
   onOpenWishlist: () => void;
   onOpenSearch: () => void;
-  onOpenBrandSystem: () => void;
-  onOpenQuiz: () => void;
+  onOpenBrandSystem?: () => void;
+  onOpenQuiz?: () => void;
   onScrollToSection?: (sectionId: string) => void;
 }
 
@@ -50,13 +50,9 @@ export const Header: React.FC<HeaderProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleNavClick = (sectionOrTab: string) => {
-    if (sectionOrTab === 'brand-system') {
-      onOpenBrandSystem();
-    } else if (sectionOrTab === 'quiz') {
-      onOpenQuiz();
-    } else if (sectionOrTab === 'catalogo' || sectionOrTab === 'sobre-nosotros') {
+    if (sectionOrTab === 'catalogo') {
       onNavigate(sectionOrTab);
-    } else if (onScrollToSection && (sectionOrTab === 'new-arrivals' || sectionOrTab === 'best-sellers' || sectionOrTab === 'campaigns')) {
+    } else if (onScrollToSection && (sectionOrTab === 'best-sellers' || sectionOrTab === 'campaigns')) {
       if (activeTab !== 'inicio') {
         onNavigate('inicio');
         setTimeout(() => onScrollToSection(sectionOrTab), 150);
@@ -108,12 +104,6 @@ export const Header: React.FC<HeaderProps> = ({
             Catálogo
           </button>
           <button
-            onClick={() => handleNavClick('new-arrivals')}
-            className="whitespace-nowrap shrink-0 text-[#B8B8B8] hover:text-[#FAF7F0] transition-colors py-1"
-          >
-            Nuevas Llegadas
-          </button>
-          <button
             onClick={() => handleNavClick('best-sellers')}
             className="whitespace-nowrap shrink-0 text-[#B8B8B8] hover:text-[#FAF7F0] transition-colors py-1"
           >
@@ -124,27 +114,6 @@ export const Header: React.FC<HeaderProps> = ({
             className="whitespace-nowrap shrink-0 text-[#B8B8B8] hover:text-[#FAF7F0] transition-colors py-1"
           >
             Campañas
-          </button>
-          <button
-            onClick={() => handleNavClick('quiz')}
-            className="whitespace-nowrap shrink-0 text-[#D4AF37] hover:text-[#FFD76A] transition-colors py-1 flex items-center gap-1"
-          >
-            <Sparkles className="w-3 h-3 text-[#FFD76A]" />
-            <span>Asesor Olfativo</span>
-          </button>
-          <button
-            onClick={() => handleNavClick('sobre-nosotros')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 ${
-              activeTab === 'sobre-nosotros' ? 'text-[#D4AF37]' : 'text-[#B8B8B8] hover:text-[#FAF7F0]'
-            }`}
-          >
-            Showroom
-          </button>
-          <button
-            onClick={() => handleNavClick('brand-system')}
-            className="whitespace-nowrap shrink-0 text-[#888] hover:text-[#D4AF37] transition-colors py-1"
-          >
-            Logos
           </button>
         </nav>
 
@@ -217,12 +186,6 @@ export const Header: React.FC<HeaderProps> = ({
             Catálogo Completo
           </button>
           <button
-            onClick={() => handleNavClick('new-arrivals')}
-            className="block w-full text-left py-1.5 text-[#B8B8B8]"
-          >
-            Nuevas Llegadas
-          </button>
-          <button
             onClick={() => handleNavClick('best-sellers')}
             className="block w-full text-left py-1.5 text-[#B8B8B8]"
           >
@@ -233,25 +196,6 @@ export const Header: React.FC<HeaderProps> = ({
             className="block w-full text-left py-1.5 text-[#B8B8B8]"
           >
             Campañas Publicitarias
-          </button>
-          <button
-            onClick={() => handleNavClick('quiz')}
-            className="block w-full text-left py-1.5 text-[#D4AF37] flex items-center gap-1.5"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Asesor Olfativo VIP</span>
-          </button>
-          <button
-            onClick={() => handleNavClick('sobre-nosotros')}
-            className="block w-full text-left py-1.5 text-[#FAF7F0]"
-          >
-            Showroom Piantini & Historia
-          </button>
-          <button
-            onClick={() => handleNavClick('brand-system')}
-            className="block w-full text-left py-1.5 text-[#D4AF37]"
-          >
-            Logos del Sistema & Guía de Marca
           </button>
         </div>
       )}

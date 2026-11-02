@@ -20,14 +20,12 @@ import { MapPin, Phone, Mail, Instagram, ShieldCheck, Heart } from 'lucide-react
 
 interface FooterProps {
   onNavigate: (tab: string) => void;
-  onOpenBrandSystem: () => void;
-  onOpenQuiz: () => void;
+  onOpenBrandSystem?: () => void;
+  onOpenQuiz?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onNavigate,
-  onOpenBrandSystem,
-  onOpenQuiz,
 }) => {
   return (
     <footer className="bg-[#050505] border-t border-[#1f1f1f] pt-16 pb-12 text-xs font-sans text-[#B8B8B8]">
@@ -73,30 +71,6 @@ export const Footer: React.FC<FooterProps> = ({
                   Catálogo Completo
                 </button>
               </li>
-              <li>
-                <button
-                  onClick={onOpenQuiz}
-                  className="hover:text-[#D4AF37] transition-colors"
-                >
-                  Asesor Olfativo VIP
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('sobre-nosotros')}
-                  className="hover:text-[#FAF7F0] transition-colors"
-                >
-                  Sobre Nosotros & Showroom
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={onOpenBrandSystem}
-                  className="text-[#D4AF37]/80 hover:text-[#D4AF37] transition-colors"
-                >
-                  Logos del Sistema
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -115,14 +89,14 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          {/* Column 4: Contacto Showroom */}
+          {/* Column 4: Contacto */}
           <div className="lg:col-span-3 space-y-3">
             <span className="text-[10px] uppercase font-sans tracking-[0.2em] text-[#D4AF37] font-semibold block">
-              Showroom Piantini
+              Atención & Pedidos
             </span>
             <p className="text-xs text-[#B8B8B8] leading-relaxed">
               Santo Domingo, D.N., República Dominicana. <br />
-              Atelier privado con cata olfativa guiada.
+              Envíos express asegurados a todo el territorio nacional.
             </p>
             <div className="space-y-1 text-xs pt-1">
               <p className="text-[#FAF7F0]">
@@ -151,13 +125,6 @@ export const Footer: React.FC<FooterProps> = ({
           </p>
           <div className="flex items-center gap-6">
             <span>Precios en Pesos Dominicanos (DOP)</span>
-            <span>·</span>
-            <button
-              onClick={onOpenBrandSystem}
-              className="text-[#D4AF37] hover:underline"
-            >
-              Identidad de Marca
-            </button>
           </div>
         </div>
       </div>
