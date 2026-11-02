@@ -1,3 +1,21 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/CartDrawer.tsx
+ * QUÉ ES: Bolsa lateral + checkout dominicano en dos pasos.
+ * DÓNDE SE VE: Panel derecho al pulsar "Bolsa" en el Header.
+ * SE RENDERIZA DESDE: App.tsx (<CartDrawer ... />).
+ * PROPS: isOpen, onClose, items, onUpdateQuantity, onRemoveItem,
+ *        onClearCart, onOrderPlaced.
+ * QUÉ TOCAR:
+ *   - Envío gratis / costos → `shippingThreshold`, `shippingCost`.
+ *   - Cupones válidos → `handleApplyCoupon` (DVICTOR10 / ELEGANCIA10).
+ *   - Datos del formulario → estado `formData` (tipo en types.ts).
+ *   - Totales → `subtotal`, `discountAmount`, `finalTotal`.
+ *   - Provincias → PROVINCES_RD en data/perfumes.ts.
+ *   - Métodos de pago → bloque "Payment method".
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState } from 'react';
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, CheckCircle2, MessageCircle, Truck } from 'lucide-react';
 import { CartItem, CheckoutFormData } from '../types';
@@ -42,6 +60,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
   if (!isOpen) return null;
 
+  // ── TOTALES Y ENVÍO ────────────────────────────────────────────────────────
+  // Envío gratis desde RD$ 8,000. Si no califica: RD$ 350 (SD) o RD$ 500 (nacional).
   const subtotal = items.reduce((acc, item) => acc + item.priceDOP * item.quantity, 0);
   const discountAmount = Math.round((subtotal * appliedDiscountPercent) / 100);
   const shippingThreshold = 8000;
@@ -49,6 +69,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const shippingCost = isShippingFree ? 0 : formData.deliveryType === 'express-sd' ? 350 : 500;
   const finalTotal = Math.max(0, subtotal - discountAmount + shippingCost);
 
+  // ── CUPONES VÁLIDOS ────────────────────────────────────────────────────────
+  // DVICTOR10 y ELEGANCIA10 aplican 10% sobre el subtotal.
   const handleApplyCoupon = (e: React.FormEvent) => {
     e.preventDefault();
     setCouponError('');
@@ -62,6 +84,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     }
   };
 
+  // ── CONFIRMAR PEDIDO (SIMULADO) ────────────────────────────────────────────
+  // Genera un ID aleatorio y notifica a App. No hay backend ni pasarela real:
+  // el pedido solo vive en el estado y se confirma por WhatsApp.
   const handleProcessOrder = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.phone || !formData.address) {

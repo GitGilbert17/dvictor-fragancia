@@ -1,3 +1,18 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/BrandSystemModal.tsx
+ * QUÉ ES: Manual de identidad visual: logos, paleta, tipografías y reglas.
+ * DÓNDE SE VE: Modal al pulsar "Logos" (Header) o "Identidad de Marca".
+ * SE RENDERIZA DESDE: App.tsx (<BrandSystemModal ... />).
+ * PROPS: isOpen, onClose.
+ * QUÉ TOCAR:
+ *   - Colores oficiales → array `colorPalette`.
+ *   - Secciones del modal → estado `activeSection`.
+ *   - Textos de tipografía / reglas → bloques "Section 3" y "Section 4".
+ *   - Copiar HEX al portapapeles → `handleCopyHex`.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState } from 'react';
 import { X, Copy, Check, Sparkles, Layers, Palette, Type, Shield } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
@@ -13,6 +28,8 @@ export const BrandSystemModal: React.FC<BrandSystemModalProps> = ({ isOpen, onCl
 
   if (!isOpen) return null;
 
+  // ── PALETA OFICIAL DE MARCA ────────────────────────────────────────────────
+  // Se muestra en la sección "Paleta de Color" y se copia con `handleCopyHex`.
   const colorPalette = [
     {
       name: 'Negro Obsidiana',

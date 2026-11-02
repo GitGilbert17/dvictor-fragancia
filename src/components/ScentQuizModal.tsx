@@ -1,3 +1,18 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/ScentQuizModal.tsx
+ * QUÉ ES: "Asesor Olfativo": quiz de 3 preguntas que recomienda 3 perfumes.
+ * DÓNDE SE VE: Modal al pulsar "Asesor Olfativo" en Header o Footer.
+ * SE RENDERIZA DESDE: App.tsx (<ScentQuizModal ... />).
+ * PROPS: isOpen, onClose, perfumes, onSelectPerfume, onAddToCart.
+ * QUÉ TOCAR:
+ *   - Preguntas y opciones → arrays dentro de cada `step` (1, 2 y 3).
+ *   - Reglas de recomendación → constante `recommendedPerfumes`.
+ *   - Fallback si no hay coincidencias → `finalResults`.
+ *   - Resultado final → bloque "Step 4: Results".
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState } from 'react';
 import { X, Sparkles, ArrowRight, RotateCcw, Check, ShoppingBag, Eye } from 'lucide-react';
 import { Perfume } from '../types';
@@ -32,6 +47,9 @@ export const ScentQuizModal: React.FC<ScentQuizModalProps> = ({
   };
 
   // Recommendations calculated based on user answers
+  // ── RECOMENDACIÓN DEL QUIZ ─────────────────────────────────────────────────
+  // Filtra por género y familia olfativa según las respuestas. Si no hay
+  // coincidencias, `finalResults` cae en los 3 primeros perfumes del catálogo.
   const recommendedPerfumes = perfumes.filter((p) => {
     // Gender compatibility
     if (forWhom === 'hombre' && p.gender === 'Mujer') return false;

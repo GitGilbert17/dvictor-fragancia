@@ -1,3 +1,17 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/SearchModal.tsx
+ * QUÉ ES: Búsqueda instantánea por nombre, casa, familia, género o notas.
+ * DÓNDE SE VE: Modal al pulsar "Buscar fragancia..." en el Header.
+ * SE RENDERIZA DESDE: App.tsx (<SearchModal ... />).
+ * PROPS: isOpen, onClose, perfumes, onSelectPerfume.
+ * QUÉ TOCAR:
+ *   - Campos por los que busca → constante `results`.
+ *   - Atajos de sugerencias → `quickShortcuts`.
+ *   - Lista de resultados → bloque "Results List".
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState } from 'react';
 import { Search, X, ArrowRight } from 'lucide-react';
 import { Perfume } from '../types';
@@ -19,6 +33,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
   if (!isOpen) return null;
 
+  // ── RESULTADOS DE BÚSQUEDA ─────────────────────────────────────────────────
+  // Busca en nombre, casa, familia, género y en todas las notas aromáticas.
   const results = query.trim()
     ? perfumes.filter((p) => {
         const q = query.toLowerCase();

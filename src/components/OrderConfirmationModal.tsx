@@ -1,3 +1,18 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/OrderConfirmationModal.tsx
+ * QUÉ ES: Recibo del pedido con número de orden, total, destino, método de
+ *         pago y datos bancarios. Botón para confirmar por WhatsApp.
+ * DÓNDE SE VE: Modal después de "Confirmar Pedido" en CartDrawer.
+ * SE RENDERIZA DESDE: App.tsx (<OrderConfirmationModal ... />).
+ * PROPS: orderInfo ({ orderId, total, formData } | null), onClose.
+ * QUÉ TOCAR:
+ *   - Cuenta bancaria → `handleCopyPopular` y bloque de transferencia.
+ *   - WhatsApp → `generateWhatsAppConfirmation`.
+ *   - Textos del recibo → bloque "Order Details Receipt Box".
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React from 'react';
 import { CheckCircle2, MessageCircle, ShieldCheck, Truck, Copy, Check, ArrowRight } from 'lucide-react';
 import { CheckoutFormData } from '../types';
@@ -22,6 +37,9 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
 
   const { orderId, total, formData } = orderInfo;
 
+  // ── DATOS BANCARIOS (HARDCODE) ─────────────────────────────────────────────
+  // Cuenta de ejemplo para pago por transferencia. Cambiar aquí y en el
+  // bloque visual de "transferencia" más abajo.
   const handleCopyPopular = () => {
     navigator.clipboard.writeText('812-349812-0');
     setCopiedAccount(true);

@@ -1,3 +1,18 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/WishlistModal.tsx
+ * QUÉ ES: Lista de perfumes favoritos guardados en localStorage.
+ * DÓNDE SE VE: Modal al pulsar el corazón del Header.
+ * SE RENDERIZA DESDE: App.tsx (<WishlistModal ... />).
+ * PROPS: isOpen, onClose, wishlistIds, perfumes, onSelectPerfume,
+ *        onAddToCart, onToggleWishlist.
+ * QUÉ TOCAR:
+ *   - Filtrado de favoritos → constante `wishlistedPerfumes`.
+ *   - Estado vacío → bloque `wishlistedPerfumes.length === 0`.
+ *   - Acciones por ítem (añadir / quitar) → botones del map.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React from 'react';
 import { X, Heart, Trash2, ShoppingBag, Eye } from 'lucide-react';
 import { Perfume } from '../types';
@@ -23,6 +38,8 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  // ── FAVORITOS VISIBLES ─────────────────────────────────────────────────────
+  // Cruza los IDs guardados (localStorage) con el catálogo actual.
   const wishlistedPerfumes = perfumes.filter((p) => wishlistIds.includes(p.id));
 
   return (

@@ -1,3 +1,27 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/ProductDetailModal.tsx
+ * QUÉ ES: Ficha completa del perfume (PDP): galería, precios, cupón, tallas,
+ *         cantidad, botón de bolsa, WhatsApp y pirámide de notas.
+ * DÓNDE SE VE: Modal que se abre al pulsar cualquier perfume.
+ * SE RENDERIZA DESDE: App.tsx (<ProductDetailModal ... />).
+ * PROPS: perfume (o null), onClose, onAddToCart, isWishlisted,
+ *        onToggleWishlist.
+ * QUÉ TOCAR:
+ *   - Cálculo de precios y cupón → constantes `regularPrice`, `ourPrice`,
+ *     `couponDiscount`, `finalPriceWithCoupon`.
+ *   - Tallas → map de `perfume.sizes`.
+ *   - Cantidad → estado `quantity`.
+ *   - WhatsApp → `generateWhatsAppLink`.
+ *   - Notas aromáticas → bloques "Top / Heart / Base Notes".
+ *
+ * ⚠️ ADVERTENCIA (no corregido): el `if (!perfume) return null` está ANTES de
+ *    los `useState`. React exige el mismo orden de hooks en cada render, por lo
+ *    que abrir la ficha puede lanzar "Rendered more hooks than during the
+ *    previous render". Solución: mover los hooks arriba del return null.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState } from 'react';
 import { X, Heart, ShoppingBag, MessageCircle, Star, Truck, Check, Sparkles, ShieldCheck } from 'lucide-react';
 import { Perfume, PerfumeSize } from '../types';
@@ -25,6 +49,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [isAddedFeedback, setIsAddedFeedback] = useState(false);
 
   const currentSize: PerfumeSize = perfume.sizes[selectedSizeIndex] || perfume.sizes[0];
+  // ── PRECIOS Y CUPÓN ────────────────────────────────────────────────────────
+  // `regularPrice` es un precio "retail" simulado (1.25× el real).
+  // ⚠️ El cupón aparece activado por defecto y se muestra el precio con 10%,
+  //    pero `handleAddToCart` envía `currentSize.priceDOP` SIN descuento.
+  //    Por eso el precio de la ficha no coincide con el de la bolsa.
   const regularPrice = Math.round(currentSize.priceDOP * 1.25);
   const ourPrice = currentSize.priceDOP;
   const couponDiscount = Math.round(ourPrice * 0.1);
