@@ -1,3 +1,19 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/BrandLogo.tsx
+ * QUÉ ES: Componente de logo con 4 variantes y fallback SVG si la imagen falla.
+ * DÓNDE SE VE: Header, Footer, AboutContact y OrderConfirmationModal.
+ * PROPS: variant ('primary' | 'monogram' | 'horizontal' | 'compact'),
+ *        className, size ('sm' | 'md' | 'lg' | 'xl'), showSubtitle.
+ * QUÉ TOCAR:
+ *   - Rutas de las imágenes → /assets/logos/Logo2.png y Logo.png.
+ *   - Logo horizontal (navbar) → bloque `variant === 'horizontal'`.
+ *   - Monograma → bloque `variant === 'monogram'`.
+ *   - Emblema vertical → bloque final (primary/compact).
+ *   - Fallback dibujado en SVG → constante `SvgFallback`.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState } from 'react';
 
 interface BrandLogoProps {

@@ -1,3 +1,18 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/CampaignBanners.tsx
+ * QUÉ ES: Banners publicitarios y grid editorial de 4 tarjetas.
+ * DÓNDE SE VE: Inicio → bloque 3 ("Campañas").
+ * SE RENDERIZA DESDE: App.tsx (bloque "3. Advertising Campaign Spotlights").
+ * PROPS: perfumes (catálogo completo), onSelectPerfumeById (abre la ficha).
+ * QUÉ TOCAR:
+ *   - Banners grandes (Tabac Doré / DésirToxic) → bloque "2-Column Campaign".
+ *   - Textos e imágenes de los banners → dentro de cada <div>.
+ *   - Grid de 4 tarjetas → bloque "4-Grid Editorial Campaign".
+ *   - Los IDs usados aquí deben existir en PERFUMES_DATA.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React from 'react';
 import { Perfume } from '../types';
 

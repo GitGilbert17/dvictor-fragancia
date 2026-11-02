@@ -1,3 +1,20 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/AboutContact.tsx
+ * QUÉ ES: Historia de la marca, showroom, políticas, preguntas frecuentes y
+ *         formulario de contacto (simulado, sin backend).
+ * DÓNDE SE VE: Inicio → bloque 6 ("Sobre Nosotros") y pestaña "Showroom".
+ * SE RENDERIZA DESDE: App.tsx (dos veces).
+ * PROPS: Ninguna (todo es contenido local).
+ * QUÉ TOCAR:
+ *   - Preguntas y respuestas → array `faqs`.
+ *   - Envío del formulario → `handleContactSubmit` (solo muestra mensaje).
+ *   - Historia → bloque "Story Section".
+ *   - Dirección, horario y teléfono → tarjeta "Showroom Card".
+ *   - WhatsApp → enlace `wa.me` del bloque "Contact Form & WhatsApp Channel".
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, MessageCircle, ChevronDown, ShieldCheck, Truck, RotateCcw, Send, Check } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
@@ -13,6 +30,8 @@ export const AboutContact: React.FC = () => {
     message: '',
   });
 
+  // ── PREGUNTAS FRECUENTES ───────────────────────────────────────────────────
+  // Se renderizan como acordeón más abajo (bloque "FAQs Accordion").
   const faqs = [
     {
       q: '¿Cómo garantizan que los perfumes son 100% auténticos y originales?',
@@ -36,6 +55,9 @@ export const AboutContact: React.FC = () => {
     },
   ];
 
+  // ── FORMULARIO DE CONTACTO (SIMULADO) ──────────────────────────────────────
+  // No envía a ningún backend: solo muestra el mensaje de éxito y limpia
+  // los campos después de 4 segundos.
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSent(true);

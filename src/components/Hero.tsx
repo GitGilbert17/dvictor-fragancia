@@ -1,3 +1,18 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/Hero.tsx
+ * QUÉ ES: Banner principal de la página de inicio (imagen a sangre completa).
+ * DÓNDE SE VE: Inicio → primer bloque después del Header.
+ * SE RENDERIZA DESDE: App.tsx (bloque "1. Minimalist Editorial Hero").
+ * PROPS: onShopClick (scroll al catálogo), onExploreFeatured (abre AETERNA).
+ * QUÉ TOCAR:
+ *   - Imagen de fondo → etiqueta <img> dentro de "Background Photograph".
+ *   - Pretítulo / título / notas → bloque "Hero Content".
+ *   - Botones → bloque "Minimalist Action Buttons".
+ *   - Sellos de confianza → bloque "Trust Mini-Bar".
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 

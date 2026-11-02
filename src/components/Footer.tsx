@@ -1,3 +1,19 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/Footer.tsx
+ * QUÉ ES: Pie de página con marca, navegación, colecciones y contacto/pagos.
+ * DÓNDE SE VE: Al final de todas las páginas.
+ * SE RENDERIZA DESDE: App.tsx (<Footer ... />).
+ * PROPS: onNavigate (cambia de pestaña), onOpenBrandSystem, onOpenQuiz.
+ * QUÉ TOCAR:
+ *   - Texto de marca y sello → columna 1.
+ *   - Enlaces de navegación → columna 2.
+ *   - Lista de colecciones → columna 3.
+ *   - WhatsApp, email y bancos → columna 4.
+ *   - Copyright y enlace "Identidad de Marca" → "Bottom bar".
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React from 'react';
 import { BrandLogo } from './BrandLogo';
 import { MapPin, Phone, Mail, Instagram, ShieldCheck, Heart } from 'lucide-react';

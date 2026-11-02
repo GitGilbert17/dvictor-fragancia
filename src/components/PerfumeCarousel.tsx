@@ -1,3 +1,20 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/PerfumeCarousel.tsx
+ * QUÉ ES: Carrusel horizontal reutilizable de perfumes. Se usa para
+ *         "Nuevas Llegadas" y "Los Más Vendidos".
+ * DÓNDE SE VE: Inicio → bloques 2 y 4.
+ * SE RENDERIZA DESDE: App.tsx (dos veces, con distinto título y `isHot`).
+ * PROPS: title, subtitle, perfumes, onSelectPerfume, onAddToCart, onSeeMore,
+ *        isHot (si es true muestra la llama roja en vez de "24h RD").
+ * QUÉ TOCAR:
+ *   - Flechas y desplazamiento → función `scroll`.
+ *   - Encabezado y "Ver Todo" → bloque "Section Header".
+ *   - Tarjeta de cada perfume → bloque "Carousel Track".
+ *   - Puntos de paginación → bloque "Pagination Dots".
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Star, Flame, Eye, ShoppingBag } from 'lucide-react';
 import { Perfume } from '../types';

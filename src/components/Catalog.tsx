@@ -1,3 +1,20 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/Catalog.tsx
+ * QUÉ ES: Catálogo completo con buscador, filtros, orden y grid de tarjetas.
+ * DÓNDE SE VE: Inicio → bloque 5 ("Catálogo") y pestaña "Catálogo".
+ * SE RENDERIZA DESDE: App.tsx (dos veces).
+ * PROPS: perfumes, onSelectPerfume, onAddToCart, wishlist, onToggleWishlist,
+ *        initialFilter (opcional; hoy no se usa desde App).
+ * QUÉ TOCAR:
+ *   - Filtros y orden → estado `filters` + `filteredPerfumes`.
+ *   - Barra de búsqueda / género / orden → bloque "Search & Top Action Bar".
+ *   - Panel lateral de filtros → bloque "Filters Sidebar".
+ *   - Tarjeta de producto → bloque "Product Grid Area".
+ *   - Precio máximo del slider → min/max en el input range.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState, useMemo } from 'react';
 import { Search, SlidersHorizontal, Heart, ShoppingBag, Eye, RotateCcw, Check, Sparkles } from 'lucide-react';
 import { Perfume, FilterState, Gender, OlfactoryFamily } from '../types';
@@ -42,6 +59,9 @@ export const Catalog: React.FC<CatalogProps> = ({
     'Cuero / Chipre',
   ];
 
+  // ── LÓGICA DE FILTRADO Y ORDEN ─────────────────────────────────────────────
+  // Aplica búsqueda por nombre/casa/familia/notas, género, categoría, familia,
+  // casa y precio máximo. Luego ordena según `filters.sortBy`.
   const filteredPerfumes = useMemo(() => {
     return perfumes
       .filter((perfume) => {
@@ -102,6 +122,8 @@ export const Catalog: React.FC<CatalogProps> = ({
       });
   }, [perfumes, filters]);
 
+  // ── AÑADIR RÁPIDO ──────────────────────────────────────────────────────────
+  // Añade la primera talla del perfume y muestra "Agregado" por 1.8 s.
   const handleQuickAdd = (e: React.MouseEvent, perfume: Perfume) => {
     e.stopPropagation();
     const defaultSize = perfume.sizes[0];

@@ -1,3 +1,23 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/components/Header.tsx
+ * QUÉ ES: Barra superior fija. Promo, logo, menú de navegación, buscador,
+ *         indicador de moneda, favoritos, bolsa y menú móvil.
+ * DÓNDE SE VE: Arriba de todas las páginas (sticky).
+ * SE RENDERIZA DESDE: App.tsx (<Header ... />).
+ * PROPS: activeTab, onNavigate, cartCount, onOpenCart, wishlistCount,
+ *        onOpenWishlist, onOpenSearch, onOpenBrandSystem, onOpenQuiz,
+ *        onScrollToSection.
+ * QUÉ TOCAR:
+ *   - Texto de la promo / umbral de envío gratis → "Top micro promo bar".
+ *   - Enlaces del menú de escritorio → "Zone 2".
+ *   - Botones de buscar / favoritos / bolsa → "Zone 3".
+ *   - Menú móvil → bloque "Mobile Drawer Navigation".
+ *   - Para agregar una pestaña nueva, añade el botón y su caso en
+ *     `handleNavClick`.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState } from 'react';
 import { ShoppingBag, Search, Heart, Menu, X, Sparkles } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
