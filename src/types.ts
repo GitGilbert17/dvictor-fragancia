@@ -1,3 +1,17 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/types.ts
+ * QUÉ ES: Contrato de datos de toda la app. Aquí se define la forma de un
+ *         perfume, una talla, un ítem del carrito, los filtros y el checkout.
+ * DÓNDE SE VE: No se renderiza; lo consumen App, Catalog, modales y data.
+ * QUÉ TOCAR:
+ *   - Agregar un campo a un perfume → interfaz `Perfume`.
+ *   - Cambiar filtros del catálogo → interfaz `FilterState`.
+ *   - Cambiar datos del checkout → interfaz `CheckoutFormData`.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+// ── Categorías cerradas que alimentan los filtros del catálogo ──────────────
 export type Gender = 'Hombre' | 'Mujer' | 'Unisex';
 
 export type OlfactoryFamily =
@@ -14,12 +28,14 @@ export type Concentration =
   | 'Parfum'
   | 'Eau de Toilette';
 
+// ── Presentación y precio de una talla (ej. 50 ml / 100 ml) ────────────────
 export interface PerfumeSize {
   ml: number;
   priceDOP: number;
   inStock: boolean;
 }
 
+// ── Modelo principal: alimenta catálogo, carruseles, ficha, quiz y búsqueda ─
 export interface Perfume {
   id: string;
   name: string;
@@ -45,6 +61,7 @@ export interface Perfume {
   batchCodeExample: string;
 }
 
+// ── Ítem dentro de la bolsa (una talla concreta de un perfume) ──────────────
 export interface CartItem {
   perfume: Perfume;
   sizeMl: number;
@@ -52,6 +69,7 @@ export interface CartItem {
   quantity: number;
 }
 
+// ── Estado de los filtros del catálogo (Catalog.tsx) ────────────────────────
 export interface FilterState {
   search: string;
   gender: 'Todos' | Gender;
@@ -62,6 +80,7 @@ export interface FilterState {
   sortBy: 'featured' | 'price-asc' | 'price-desc' | 'name-asc';
 }
 
+// ── Datos del checkout dominicano (CartDrawer.tsx) ──────────────────────────
 export interface CheckoutFormData {
   fullName: string;
   phone: string;

@@ -1,5 +1,23 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/data/perfumes.ts
+ * QUÉ ES: "Base de datos" local de la tienda. Contiene los 12 perfumes, la
+ *         lista de casas perfumeras y las provincias para el checkout.
+ * DÓNDE SE VE: Catálogo, carruseles, banners, ficha, quiz, búsqueda y checkout.
+ * QUÉ TOCAR:
+ *   - Agregar/quitar un perfume → array `PERFUMES_DATA` (abajo).
+ *   - Cambiar el filtro "Casa Perfumera" → `HOUSES_LIST`.
+ *   - Cambiar provincias del envío → `PROVINCES_RD`.
+ *   - Los `id` son referencias fijas: los usan CampaignBanners, la wishlist
+ *     por defecto y los enlaces del hero. No los cambies sin buscarlos.
+ *   - `image` apunta a /src/assets/images/... (revisar build de producción).
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import { Perfume } from '../types';
 
+// ── Catálogo principal: 12 fragancias (nicho + diseñador) ───────────────────
+// Orden = orden "Destacados" por defecto en Catalog.tsx.
 export const PERFUMES_DATA: Perfume[] = [
   {
     id: 'tabac-dore-reserve',
@@ -321,6 +339,8 @@ export const PERFUMES_DATA: Perfume[] = [
   },
 ];
 
+// ── Casas perfumeras disponibles en el filtro del catálogo ──────────────────
+// Debe incluir "Todas" y coincidir con el campo `house` de cada perfume.
 export const HOUSES_LIST = [
   'Todas',
   'D’ Victor Private Reserve',
@@ -336,6 +356,8 @@ export const HOUSES_LIST = [
   'Roja Parfums London',
 ];
 
+// ── Provincias/ciudades de República Dominicana para el checkout ────────────
+// Se muestran en el select "Provincia / Ciudad" de CartDrawer.tsx.
 export const PROVINCES_RD = [
   'Distrito Nacional (Santo Domingo)',
   'Santo Domingo Este / Norte / Oeste',

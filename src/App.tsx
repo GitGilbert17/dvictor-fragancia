@@ -3,6 +3,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/App.tsx
+ * QUÉ ES: Componente raíz de la app. Guarda el estado global (carrito,
+ *         wishlist, pestaña activa, modales) y decide qué se renderiza.
+ * DÓNDE SE VE: Toda la página (Inicio / Catálogo / Showroom) + modales.
+ * QUÉ TOCAR:
+ *   - Estado y persistencia en localStorage → bloque "ESTADO GLOBAL".
+ *   - Lógica de la bolsa → funciones `handleAddToCart`, `handleUpdateQuantity`,
+ *     `handleRemoveFromCart`, `handleClearCart`.
+ *   - Favoritos → `handleToggleWishlist`.
+ *   - Pestañas / scroll → `handleNavigate`, `handleScrollToSection`.
+ *   - Qué aparece en Inicio → bloque "ROUTER DE PESTAÑAS" (`activeTab`).
+ *   - Orden de los modales → bloque "MODALES GLOBALES" al final del return.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -21,6 +38,9 @@ import { Footer } from './components/Footer';
 import { PERFUMES_DATA } from './data/perfumes';
 import { Perfume, CartItem, CheckoutFormData } from './types';
 
+// ── ESTADO GLOBAL ───────────────────────────────────────────────────────────
+// Pestaña activa, modales, carrito y wishlist. El carrito y la wishlist se
+// hidratan desde localStorage para que sobrevivan al refrescar la página.
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
   const [selectedPerfume, setSelectedPerfume] = useState<Perfume | null>(null);
@@ -160,6 +180,8 @@ export default function App() {
   const newArrivalsList = PERFUMES_DATA.filter((p) => p.isNew || p.id.includes('tabac') || p.id.includes('desir') || p.id.includes('elysium'));
   const bestSellersList = PERFUMES_DATA.filter((p) => p.isBestseller);
 
+  // ── LAYOUT PRINCIPAL ───────────────────────────────────────────────────────
+  // Orden visual: Header → contenido según pestaña → Footer → modales.
   return (
     <div className="min-h-screen bg-[#050505] text-[#FAF7F0] flex flex-col font-sans selection:bg-[#D4AF37] selection:text-[#050505]">
       {/* Minimalist Top Bar (MaxAroma style: Zone 1 - Zone 2 - Zone 3) */}
