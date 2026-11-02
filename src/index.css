@@ -1,3 +1,17 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ARCHIVO: src/index.css
+ * QUÉ ES: Estilos globales: Tailwind 4, fuentes, scrollbar y utilidades de lujo.
+ * DÓNDE SE VE: Toda la app.
+ * QUÉ TOCAR:
+ *   - Familias tipográficas → variables `--font-serif` y `--font-sans`.
+ *   - Colores del scrollbar → reglas ::-webkit-scrollbar.
+ *   - Utilidades doradas → `.gold-gradient-text` y `.gold-border-glow`.
+ * NOTA: Los colores principales de la marca están hardcodeados en las clases
+ *       de Tailwind de cada componente (#050505, #D4AF37, #FAF7F0, etc.).
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 @import "tailwindcss";
 
 @layer base {
