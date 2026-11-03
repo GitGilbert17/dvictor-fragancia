@@ -16,6 +16,7 @@
 
 import React from 'react';
 import { BrandLogo } from './BrandLogo';
+import { Reveal } from './Reveal';
 import { MapPin, Phone, Mail, Instagram, ShieldCheck, Heart } from 'lucide-react';
 
 interface FooterProps {
@@ -32,7 +33,7 @@ export const Footer: React.FC<FooterProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#1f1f1f]">
           {/* Column 1: Brand Info & Heraldry */}
-          <div className="lg:col-span-4 space-y-4">
+          <Reveal className="lg:col-span-4 space-y-4">
             <BrandLogo variant="horizontal" size="md" />
             <p className="font-serif italic text-sm text-[#F5E6B3] pt-1">
               «La esencia de la elegancia.»
@@ -47,10 +48,10 @@ export const Footer: React.FC<FooterProps> = ({
                 Certificado de Autenticidad
               </span>
             </div>
-          </div>
+          </Reveal>
 
           {/* Column 2: Navegación Rápida */}
-          <div className="lg:col-span-2 space-y-3">
+          <Reveal delay={0.08} className="lg:col-span-2 space-y-3">
             <span className="text-[10px] uppercase font-sans tracking-[0.2em] text-[#D4AF37] font-semibold block">
               Explorar
             </span>
@@ -72,10 +73,10 @@ export const Footer: React.FC<FooterProps> = ({
                 </button>
               </li>
             </ul>
-          </div>
+          </Reveal>
 
           {/* Column 3: Familias & Casas */}
-          <div className="lg:col-span-3 space-y-3">
+          <Reveal delay={0.16} className="lg:col-span-3 space-y-3">
             <span className="text-[10px] uppercase font-sans tracking-[0.2em] text-[#D4AF37] font-semibold block">
               Colecciones
             </span>
@@ -87,10 +88,10 @@ export const Footer: React.FC<FooterProps> = ({
               <li>Cítricos Frescos para el Caribe</li>
               <li>Gourmand, Vainilla & Coñac</li>
             </ul>
-          </div>
+          </Reveal>
 
           {/* Column 4: Contacto */}
-          <div className="lg:col-span-3 space-y-3">
+          <Reveal delay={0.24} className="lg:col-span-3 space-y-3">
             <span className="text-[10px] uppercase font-sans tracking-[0.2em] text-[#D4AF37] font-semibold block">
               Atención & Pedidos
             </span>
@@ -115,18 +116,18 @@ export const Footer: React.FC<FooterProps> = ({
                 <span className="px-1.5 py-0.5 rounded bg-[#111] border border-[#222]">Contra Entrega</span>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#666]">
+        <Reveal delay={0.1} className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#666]">
           <p>
             © {new Date().getFullYear()} D’ Victor Fragancias SRL. Todos los derechos reservados. Santo Domingo, República Dominicana.
           </p>
           <div className="flex items-center gap-6">
             <span>Precios en Pesos Dominicanos (DOP)</span>
           </div>
-        </div>
+        </Reveal>
       </div>
     </footer>
   );

@@ -19,6 +19,7 @@ import React, { useState, useMemo } from 'react';
 import { Search, SlidersHorizontal, Heart, ShoppingBag, Eye, RotateCcw, Check, Sparkles } from 'lucide-react';
 import { Perfume, FilterState, Gender, OlfactoryFamily } from '../types';
 import { HOUSES_LIST } from '../data/perfumes';
+import { Reveal } from './Reveal';
 
 interface CatalogProps {
   perfumes: Perfume[];
@@ -150,7 +151,7 @@ export const Catalog: React.FC<CatalogProps> = ({
     <section id="catalogo-section" className="py-12 bg-[#050505] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10">
+        <Reveal className="text-center max-w-2xl mx-auto mb-10">
           <span className="text-[11px] font-sans tracking-[0.28em] text-[#D4AF37] uppercase font-semibold">
             Colección Selecta
           </span>
@@ -160,10 +161,10 @@ export const Catalog: React.FC<CatalogProps> = ({
           <p className="font-sans text-xs sm:text-sm text-[#B8B8B8] leading-relaxed">
             Precios oficiales en Pesos Dominicanos (RD$). Cada botella incluye certificado de originalidad y número de lote verificable.
           </p>
-        </div>
+        </Reveal>
 
         {/* Search & Top Action Bar */}
-        <div className="bg-[#111111] p-4 rounded-lg border border-[#262626] mb-8 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <Reveal delay={0.08} className="bg-[#111111] p-4 rounded-lg border border-[#262626] mb-8 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           {/* Search Input */}
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#B8B8B8]" />
@@ -224,12 +225,14 @@ export const Catalog: React.FC<CatalogProps> = ({
               <span>Filtros</span>
             </button>
           </div>
-        </div>
+        </Reveal>
 
         {/* Main Grid Layout with Desktop Sidebar Filter */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Filters Sidebar (Always visible on desktop, toggleable on mobile) */}
-          <aside
+          <Reveal
+            as="aside"
+            direction="left"
             className={`lg:col-span-1 space-y-6 bg-[#111111] p-5 rounded-lg border border-[#262626] h-fit ${
               showFiltersMobile ? 'block' : 'hidden lg:block'
             }`}
@@ -353,7 +356,7 @@ export const Catalog: React.FC<CatalogProps> = ({
                 Nuestros asesores en Santo Domingo te ayudan por WhatsApp en tiempo real.
               </p>
             </div>
-          </aside>
+          </Reveal>
 
           {/* Product Grid Area */}
           <div className="lg:col-span-3">
@@ -391,17 +394,17 @@ export const Catalog: React.FC<CatalogProps> = ({
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredPerfumes.map((perfume) => {
+                {filteredPerfumes.map((perfume, index) => {
                   const defaultSize = perfume.sizes[0];
                   const isWishlisted = wishlist.includes(perfume.id);
                   const isJustAdded = addedItemNotification === perfume.id;
 
                   return (
-                    <article
-                      key={perfume.id}
-                      onClick={() => onSelectPerfume(perfume)}
-                      className="group bg-[#111111] border border-[#262626] hover:border-[#D4AF37]/50 rounded-lg overflow-hidden transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.6)]"
-                    >
+                    <Reveal key={perfume.id} delay={(index % 3) * 0.08} className="h-full">
+                      <article
+                        onClick={() => onSelectPerfume(perfume)}
+                        className="group h-full bg-[#111111] border border-[#262626] hover:border-[#D4AF37]/50 rounded-lg overflow-hidden transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.6)]"
+                      >
                       {/* Card Image Area (65-75% visual weight) */}
                       <div className="relative aspect-[4/3] bg-[#0c0c0c] overflow-hidden">
                         <img
@@ -514,7 +517,8 @@ export const Catalog: React.FC<CatalogProps> = ({
                           </button>
                         </div>
                       </div>
-                    </article>
+                      </article>
+                    </Reveal>
                   );
                 })}
               </div>

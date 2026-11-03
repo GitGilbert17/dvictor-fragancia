@@ -20,7 +20,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { PerfumeCarousel } from './components/PerfumeCarousel';
@@ -40,6 +40,8 @@ import { Perfume, CartItem, CheckoutFormData } from './types';
 // hidratan desde localStorage para que sobrevivan al refrescar la página.
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('inicio');
+  // tabKey sube con cada cambio de tab para forzar remount y disparar la animación CSS
+  const [tabKey, setTabKey] = useState(0);
   const [selectedPerfume, setSelectedPerfume] = useState<Perfume | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -161,6 +163,7 @@ export default function App() {
 
   const handleNavigate = (tab: string) => {
     setActiveTab(tab);
+    setTabKey((k) => k + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -194,10 +197,10 @@ export default function App() {
       {/* Main Content Router */}
       <main className="flex-1">
         {activeTab === 'inicio' && (
-          <>
+          <div key={`inicio-${tabKey}`} className="page-transition-enter">
             {/* 1. Minimalist Editorial Hero (Reference 1: Omanluxury style) */}
             <Hero
-              onShopClick={() => handleScrollToSection('catalogo-completo')}
+              onShopClick={() => handleNavigate('catalogo')}
               onExploreFeatured={() => handleSelectPerfumeById('aeterna-golden-oudh')}
             />
 
@@ -210,6 +213,7 @@ export default function App() {
                 onSelectPerfume={(perfume) => setSelectedPerfume(perfume)}
                 onAddToCart={(perfume, sizeMl) => handleAddToCart(perfume, sizeMl, 1)}
                 onSeeMore={() => handleNavigate('catalogo')}
+                enableScrollReveal={true}
               />
             </div>
 
@@ -231,24 +235,16 @@ export default function App() {
                 onAddToCart={(perfume, sizeMl) => handleAddToCart(perfume, sizeMl, 1)}
                 onSeeMore={() => handleNavigate('catalogo')}
                 isHot={true}
+                enableScrollReveal={true}
               />
             </div>
 
-            {/* 5. Clean Structured Catalog Section */}
-            <div id="catalogo-completo" className="border-t border-[#1a1a1a]">
-              <Catalog
-                perfumes={PERFUMES_DATA}
-                onSelectPerfume={(perfume) => setSelectedPerfume(perfume)}
-                onAddToCart={(perfume, sizeMl) => handleAddToCart(perfume, sizeMl, 1)}
-                wishlist={wishlist}
-                onToggleWishlist={handleToggleWishlist}
-              />
-            </div>
-          </>
+
+          </div>
         )}
 
         {activeTab === 'catalogo' && (
-          <div className="pt-4">
+          <div key={`catalogo-${tabKey}`} className="page-transition-enter pt-4">
             <Catalog
               perfumes={PERFUMES_DATA}
               onSelectPerfume={(perfume) => setSelectedPerfume(perfume)}

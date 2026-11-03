@@ -1,19 +1,12 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
  * ARCHIVO: src/components/CampaignBanners.tsx
- * QUÉ ES: Banners publicitarios y grid editorial de 4 tarjetas.
+ * QUÉ ES: Banners publicitarios con Scroll Reveal de alto impacto.
  * DÓNDE SE VE: Inicio → bloque 3 ("Campañas").
- * SE RENDERIZA DESDE: App.tsx (bloque "3. Advertising Campaign Spotlights").
- * PROPS: perfumes (catálogo completo), onSelectPerfumeById (abre la ficha).
- * QUÉ TOCAR:
- *   - Banners grandes (Tabac Doré / DésirToxic) → bloque "2-Column Campaign".
- *   - Textos e imágenes de los banners → dentro de cada <div>.
- *   - Grid de 4 tarjetas → bloque "4-Grid Editorial Campaign".
- *   - Los IDs usados aquí deben existir en PERFUMES_DATA.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Perfume } from '../types';
 
 interface CampaignBannersProps {
@@ -21,19 +14,80 @@ interface CampaignBannersProps {
   onSelectPerfumeById: (perfumeId: string) => void;
 }
 
+// Hook reutilizable para Scroll Reveal con IntersectionObserver
+function useReveal(ref: React.RefObject<HTMLElement | null>, direction: 'up' | 'left' | 'right' = 'up', delay = 0) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const classBase = direction === 'left' ? 'reveal-left' : direction === 'right' ? 'reveal-right' : 'reveal-hidden';
+    el.classList.add(classBase);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.transitionDelay = `${delay}s`;
+          el.classList.add('reveal-visible', 'reveal-active');
+          el.classList.remove(classBase);
+        } else {
+          el.style.transitionDelay = '0s';
+          el.classList.remove('reveal-visible', 'reveal-active');
+          el.classList.add(classBase);
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref, direction, delay]);
+}
+
 export const CampaignBanners: React.FC<CampaignBannersProps> = ({
-  perfumes,
   onSelectPerfumeById,
 }) => {
+  const headingRef = useRef<HTMLDivElement>(null);
+  const banner1Ref = useRef<HTMLDivElement>(null);
+  const banner2Ref = useRef<HTMLDivElement>(null);
+  const grid1Ref = useRef<HTMLDivElement>(null);
+  const grid2Ref = useRef<HTMLDivElement>(null);
+  const grid3Ref = useRef<HTMLDivElement>(null);
+  const grid4Ref = useRef<HTMLDivElement>(null);
+
+  useReveal(headingRef as React.RefObject<HTMLElement>, 'up', 0);
+  useReveal(banner1Ref as React.RefObject<HTMLElement>, 'left', 0.1);
+  useReveal(banner2Ref as React.RefObject<HTMLElement>, 'right', 0.2);
+  useReveal(grid1Ref as React.RefObject<HTMLElement>, 'up', 0.0);
+  useReveal(grid2Ref as React.RefObject<HTMLElement>, 'up', 0.12);
+  useReveal(grid3Ref as React.RefObject<HTMLElement>, 'up', 0.24);
+  useReveal(grid4Ref as React.RefObject<HTMLElement>, 'up', 0.36);
+
   return (
     <div className="space-y-16 py-8 bg-[#050505]">
-      {/* 2-Column Campaign Spotlight (Reference 4: image_242cb9fc.png) */}
+
+      {/* Divider con shimmer dorado animado */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="gold-shimmer-line" />
+      </div>
+
+      {/* 2-Column Campaign Spotlight */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Encabezado de sección */}
+        <div ref={headingRef} className="text-center mb-8">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] font-sans font-semibold">
+            Campañas Exclusivas
+          </span>
+          <h2 className="font-serif text-2xl sm:text-3xl text-[#FAF7F0] mt-2 font-normal">
+            Fragancias <span className="italic">Destacadas</span>
+          </h2>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          {/* Banner 1: Tabac Doré */}
+          {/* Banner 1: Tabac Doré — entra desde la izquierda */}
           <div
+            ref={banner1Ref}
             onClick={() => onSelectPerfumeById('tabac-dore-reserve')}
-            className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-lg overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 transition-all duration-500 shadow-xl"
+            className="hover-gold-glow group relative aspect-[4/3] sm:aspect-[16/11] rounded-lg overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 shadow-xl"
           >
             <img
               src="/src/assets/images/campaign_tobacco_gold_1793303201731.jpg"
@@ -41,9 +95,7 @@ export const CampaignBanners: React.FC<CampaignBannersProps> = ({
               className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
-            {/* Subtle Gradient Scrim at bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 sm:p-8 text-center" />
-
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 text-center flex flex-col items-center">
               <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] font-sans font-semibold text-[#D4AF37] mb-1.5">
                 Descubrir Novedades
@@ -55,17 +107,18 @@ export const CampaignBanners: React.FC<CampaignBannersProps> = ({
                 Hojas de Tabaco Rubio · Vainilla Negra · Oud Añejo
               </p>
               <div className="mt-4">
-                <span className="inline-block px-5 py-2 border border-[#D4AF37]/60 group-hover:border-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#050505] text-[#FAF7F0] text-xs font-sans tracking-widest uppercase transition-all duration-300">
+                <span className="btn-impact inline-block px-5 py-2 border border-[#D4AF37]/60 group-hover:border-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#050505] text-[#FAF7F0] text-xs font-sans tracking-widest uppercase transition-all duration-300">
                   Explorar Fragancia
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Banner 2: DesirToxic Azur */}
+          {/* Banner 2: DésirToxic Azur — entra desde la derecha */}
           <div
+            ref={banner2Ref}
             onClick={() => onSelectPerfumeById('desirtoxic-azur-niche')}
-            className="group relative aspect-[4/3] sm:aspect-[16/11] rounded-lg overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 transition-all duration-500 shadow-xl"
+            className="hover-gold-glow group relative aspect-[4/3] sm:aspect-[16/11] rounded-lg overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 shadow-xl"
           >
             <img
               src="/src/assets/images/campaign_azure_niche_1793303200950.jpg"
@@ -73,9 +126,7 @@ export const CampaignBanners: React.FC<CampaignBannersProps> = ({
               className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
-            {/* Subtle Gradient Scrim at bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 sm:p-8 text-center" />
-
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 text-center flex flex-col items-center">
               <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] font-sans font-semibold text-[#D4AF37] mb-1.5">
                 Alta Perfumería de Autor
@@ -87,7 +138,7 @@ export const CampaignBanners: React.FC<CampaignBannersProps> = ({
                 Cardamomo de Ceilán · Pachulí Fresco · Almizcle Blanco
               </p>
               <div className="mt-4">
-                <span className="inline-block px-5 py-2 border border-[#D4AF37]/60 group-hover:border-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#050505] text-[#FAF7F0] text-xs font-sans tracking-widest uppercase transition-all duration-300">
+                <span className="btn-impact inline-block px-5 py-2 border border-[#D4AF37]/60 group-hover:border-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#050505] text-[#FAF7F0] text-xs font-sans tracking-widest uppercase transition-all duration-300">
                   Explorar Fragancia
                 </span>
               </div>
@@ -96,126 +147,87 @@ export const CampaignBanners: React.FC<CampaignBannersProps> = ({
         </div>
       </section>
 
-      {/* 4-Grid Editorial Campaign: Trending Niche (Reference 5: image_d3e33d8f.png) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        {/* Section Header with Hairline Divider */}
-        <div className="relative flex items-center justify-between mb-8">
-          <div className="absolute inset-0 flex items-center pointer-events-none" aria-hidden="true">
-            <div className="w-full border-t border-[#222]" />
-          </div>
-          <div className="relative bg-[#050505] pr-4">
-            <h2 className="font-serif text-xl sm:text-2xl text-[#FAF7F0] font-normal tracking-wide">
-              Tendencias & Joyas Olfativas
-            </h2>
-          </div>
-          <div className="relative bg-[#050505] pl-4">
-            <span className="text-xs uppercase tracking-wider font-sans text-[#D4AF37]">
-              Curaduría Exclusiva D’ Victor
-            </span>
-          </div>
-        </div>
+      {/* Divider secundario */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="gold-shimmer-line" />
+      </div>
 
-        {/* 2x2 Grid of Large Editorial Photos */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          {/* Card 1: Aeterna Oudh */}
+      {/* 4-Grid Editorial Campaign con stagger escalonado */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+
           <div
+            ref={grid1Ref}
             onClick={() => onSelectPerfumeById('aeterna-golden-oudh')}
-            className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 transition-all duration-500"
+            className="hover-gold-glow group relative aspect-[3/4] rounded-md overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 shadow-lg"
           >
             <img
-              src="/src/assets/images/hero_luxury_perfume_1793299734093.jpg"
+              src="/src/assets/images/perfume_tomford_oud_1793299736566.jpg"
               alt="Aeterna Golden Oudh"
-              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent flex flex-col justify-end p-6 text-center" />
-            <div className="absolute inset-x-0 bottom-0 p-6 text-center flex flex-col items-center">
-              <span className="text-[10px] uppercase tracking-[0.25em] font-sans font-semibold text-[#D4AF37] mb-1">
-                Descubrir Ahora
-              </span>
-              <h3 className="font-serif text-xl sm:text-2xl text-[#FAF7F0] font-normal">
-                D’ VICTOR: <span className="italic font-medium">AETERNA Nº III</span>
-              </h3>
-              <p className="text-xs text-[#B8B8B8] mt-1 font-sans">
-                Oud de Assam · Azafrán Real · Ámbar Cristalino
-              </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-4 text-center">
+              <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-sans font-semibold">D' Victor Reserve</span>
+              <h4 className="font-serif text-sm sm:text-lg text-[#FAF7F0] leading-tight mt-0.5">Aeterna Nº III</h4>
             </div>
           </div>
 
-          {/* Card 2: Baccarat Rouge style */}
           <div
-            onClick={() => onSelectPerfumeById('maison-rubis-extrait')}
-            className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 transition-all duration-500"
+            ref={grid2Ref}
+            onClick={() => onSelectPerfumeById('baccarat-rouge-540')}
+            className="hover-gold-glow group relative aspect-[3/4] rounded-md overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 shadow-lg"
           >
             <img
               src="/src/assets/images/perfume_baccarat_rouge_1793299737267.jpg"
-              alt="Maison Du Rubis 540"
-              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              alt="Baccarat Rouge 540"
+              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent flex flex-col justify-end p-6 text-center" />
-            <div className="absolute inset-x-0 bottom-0 p-6 text-center flex flex-col items-center">
-              <span className="text-[10px] uppercase tracking-[0.25em] font-sans font-semibold text-[#D4AF37] mb-1">
-                Descubrir Ahora
-              </span>
-              <h3 className="font-serif text-xl sm:text-2xl text-[#FAF7F0] font-normal">
-                MAISON FRANCIS KURKDJIAN: <span className="italic font-medium">RUBIS 540</span>
-              </h3>
-              <p className="text-xs text-[#B8B8B8] mt-1 font-sans">
-                Jazmín de Egipto · Cedro del Atlas · Ámbar Gris Mineral
-              </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-4 text-center">
+              <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-sans font-semibold">Maison Francis</span>
+              <h4 className="font-serif text-sm sm:text-lg text-[#FAF7F0] leading-tight mt-0.5">Baccarat Rouge</h4>
             </div>
           </div>
 
-          {/* Card 3: Creed Aventus style */}
           <div
-            onClick={() => onSelectPerfumeById('nocturne-royal-reserve')}
-            className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 transition-all duration-500"
+            ref={grid3Ref}
+            onClick={() => onSelectPerfumeById('creed-aventus')}
+            className="hover-gold-glow group relative aspect-[3/4] rounded-md overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 shadow-lg"
           >
             <img
               src="/src/assets/images/perfume_creed_aventus_1793299734804.jpg"
-              alt="Nocturne Imperial Millésime"
-              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              alt="Creed Aventus"
+              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent flex flex-col justify-end p-6 text-center" />
-            <div className="absolute inset-x-0 bottom-0 p-6 text-center flex flex-col items-center">
-              <span className="text-[10px] uppercase tracking-[0.25em] font-sans font-semibold text-[#D4AF37] mb-1">
-                Descubrir Ahora
-              </span>
-              <h3 className="font-serif text-xl sm:text-2xl text-[#FAF7F0] font-normal">
-                CREED HERITAGE: <span className="italic font-medium">NOCTURNE IMPERIAL</span>
-              </h3>
-              <p className="text-xs text-[#B8B8B8] mt-1 font-sans">
-                Piña Imperial · Abedul Ahumado · Cuero Curtido
-              </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-4 text-center">
+              <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-sans font-semibold">Creed</span>
+              <h4 className="font-serif text-sm sm:text-lg text-[#FAF7F0] leading-tight mt-0.5">Aventus</h4>
             </div>
           </div>
 
-          {/* Card 4: Delina style */}
           <div
-            onClick={() => onSelectPerfumeById('rose-etheree-royale')}
-            className="group relative aspect-[4/3] rounded-lg overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 transition-all duration-500"
+            ref={grid4Ref}
+            onClick={() => onSelectPerfumeById('delina-rose')}
+            className="hover-gold-glow group relative aspect-[3/4] rounded-md overflow-hidden cursor-pointer bg-[#0c0c0c] border border-[#222] hover:border-[#D4AF37]/50 shadow-lg"
           >
             <img
               src="/src/assets/images/perfume_parfums_marly_delina_1793299736567.jpg"
-              alt="Rose Éthérée Royale"
-              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              alt="Parfums de Marly Delina"
+              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent flex flex-col justify-end p-6 text-center" />
-            <div className="absolute inset-x-0 bottom-0 p-6 text-center flex flex-col items-center">
-              <span className="text-[10px] uppercase tracking-[0.25em] font-sans font-semibold text-[#D4AF37] mb-1">
-                Descubrir Ahora
-              </span>
-              <h3 className="font-serif text-xl sm:text-2xl text-[#FAF7F0] font-normal">
-                PARFUMS DE MARLY: <span className="italic font-medium">ROSE ÉTHÉRÉE</span>
-              </h3>
-              <p className="text-xs text-[#B8B8B8] mt-1 font-sans">
-                Rosa Turca · Lichi Rosa de Madagascar · Peonía Imperial
-              </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-4 text-center">
+              <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-sans font-semibold">Parfums de Marly</span>
+              <h4 className="font-serif text-sm sm:text-lg text-[#FAF7F0] leading-tight mt-0.5">Delina</h4>
             </div>
           </div>
+
         </div>
       </section>
     </div>
