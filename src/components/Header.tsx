@@ -68,14 +68,14 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="sticky top-0 z-40 bg-[#050505]/95 backdrop-blur-md border-b border-[#1f1f1f]">
       {/* Top micro promo bar */}
-      <div className="bg-[#0c0c0c] border-b border-[#1a1a1a] text-[11px] py-1 px-4 text-center text-[#B8B8B8] font-sans">
+      <div className="bg-[#0c0c0c] border-b border-[#1a1a1a] text-[10px] sm:text-[11px] py-1 px-3 sm:px-4 text-center text-[#B8B8B8] font-sans leading-tight">
         <span className="text-[#D4AF37] font-semibold mr-1.5">REPUBLICA DOMINICANA:</span>
         Envíos express gratis en órdenes superiores a <span className="text-[#FAF7F0] font-mono font-bold">RD$ 8,000</span>
         <span className="hidden sm:inline text-[#D4AF37] ml-2">· Sello de Autenticidad Garantizado</span>
       </div>
 
       {/* Main Top Bar (MaxAroma Style: Logo — Nav — Search & Bag) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-6">
         {/* Zone 1: Logo */}
         <button
           onClick={() => handleNavClick('inicio')}
@@ -122,10 +122,10 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Quick Search Button / Input */}
           <button
             onClick={onOpenSearch}
-            className="flex items-center gap-2 px-3 py-1.5 bg-[#111] hover:bg-[#191919] border border-[#2a2a2a] rounded-md text-xs text-[#888] hover:text-[#FAF7F0] transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 bg-[#111] hover:bg-[#191919] border border-[#2a2a2a] rounded-md text-xs text-[#888] hover:text-[#FAF7F0] transition-colors cursor-pointer"
             aria-label="Buscar fragancias"
           >
-            <Search className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <Search className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" />
             <span className="hidden sm:inline text-[11px]">Buscar fragancia...</span>
           </button>
 
@@ -149,7 +149,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Shopping Bag Button (MaxAroma style) */}
           <button
             onClick={onOpenCart}
-            className="flex items-center gap-2 px-3.5 py-2 bg-[#D4AF37] hover:bg-[#FFD76A] text-[#050505] rounded-md font-sans text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md"
+            className="btn-impact flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-[#D4AF37] hover:bg-[#FFD76A] text-[#050505] rounded-md font-sans text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-md shrink-0"
             aria-label="Abrir carrito"
           >
             <ShoppingBag className="w-4 h-4" />

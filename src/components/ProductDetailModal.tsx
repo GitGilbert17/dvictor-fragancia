@@ -41,12 +41,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   isWishlisted,
   onToggleWishlist,
 }) => {
-  if (!perfume) return null;
-
   const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
   const [couponActivated, setCouponActivated] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [isAddedFeedback, setIsAddedFeedback] = useState(false);
+
+  if (!perfume) return null;
 
   const currentSize: PerfumeSize = perfume.sizes[selectedSizeIndex] || perfume.sizes[0];
   // ── PRECIOS Y CUPÓN ────────────────────────────────────────────────────────
@@ -259,7 +259,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Stepper + Primary Add to Bag Button */}
               <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
                   {/* Stepper */}
                   <div className="flex items-center bg-[#080808] border border-[#2a2a2a] rounded px-3 py-2 text-xs">
                     <button

@@ -24,7 +24,7 @@ interface HeroProps {
 const HERO_SLIDES = [
   {
     src: '/src/assets/images/hero_luxury_perfume_1793299734093.jpg',
-    alt: "D' Victor Fragancias - Oman Luxury Hommage Style Hero",
+    alt: "D' Victor Fragancias - Aeterna Private Reserve",
   },
   {
     src: '/src/assets/images/campaign_tobacco_gold_1793303201731.jpg',
@@ -33,6 +33,14 @@ const HERO_SLIDES = [
   {
     src: '/src/assets/images/campaign_azure_niche_1793303200950.jpg',
     alt: "M.Micallef DésirToxic - Campaña D' Victor Fragancias",
+  },
+  {
+    src: '/src/assets/images/perfume_creed_aventus_1793299734804.jpg',
+    alt: "Creed Aventus Imperial - Colección Privada D' Victor",
+  },
+  {
+    src: '/src/assets/images/perfume_baccarat_rouge_1793299737267.jpg',
+    alt: "Maison Francis Kurkdjian Baccarat Rouge 540 Extrait",
   },
 ] as const;
 
@@ -93,7 +101,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onExploreFeatured }) =>
 
   return (
     <section className="relative overflow-hidden bg-[#050505]">
-      <div className="relative w-full h-[520px] sm:h-[600px] lg:h-[680px] bg-[#080808] flex items-center">
+      <div className="relative w-full min-h-[480px] h-[520px] sm:h-[600px] lg:h-[680px] bg-[#080808] flex items-center">
         {/* Slider de imágenes de fondo: cada imagen entra fluidamente desde la derecha */}
         <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           <div
@@ -144,17 +152,17 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onExploreFeatured }) =>
             </p>
 
             {/* Botones de acción */}
-            <div className="hero-btns flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="hero-btns flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
               <button
                 onClick={onExploreFeatured}
-                className="btn-impact px-8 py-3.5 bg-transparent border border-[#FAF7F0] hover:bg-[#FAF7F0] hover:text-[#050505] text-[#FAF7F0] font-sans text-xs uppercase tracking-[0.2em] font-medium transition-all duration-300 cursor-pointer"
+                className="btn-impact w-full sm:w-auto text-center px-6 sm:px-8 py-3 sm:py-3.5 bg-transparent border border-[#FAF7F0] hover:bg-[#FAF7F0] hover:text-[#050505] text-[#FAF7F0] font-sans text-[11px] sm:text-xs uppercase tracking-[0.2em] font-medium transition-all duration-300 cursor-pointer"
               >
                 Descubrir AETERNA 1744
               </button>
 
               <button
                 onClick={onShopClick}
-                className="btn-impact px-6 py-3.5 bg-[#D4AF37] hover:bg-[#FFD76A] text-[#050505] font-sans text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 cursor-pointer shadow-[0_0_30px_-5px_rgba(212,175,55,0.5)]"
+                className="btn-impact w-full sm:w-auto text-center px-6 py-3 sm:py-3.5 bg-[#D4AF37] hover:bg-[#FFD76A] text-[#050505] font-sans text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 cursor-pointer shadow-[0_0_30px_-5px_rgba(212,175,55,0.5)]"
               >
                 Explorar Catálogo
               </button>
@@ -163,7 +171,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick, onExploreFeatured }) =>
         </div>
 
         {/* Indicadores del slider */}
-        <div className="hero-slide-dots absolute bottom-5 right-5 sm:bottom-7 sm:right-8 z-20 flex items-center gap-2">
+        <div className="hero-slide-dots absolute bottom-4 right-4 sm:bottom-7 sm:right-8 z-20 flex items-center gap-1.5 sm:gap-2">
           {HERO_SLIDES.map((slide, index) => (
             <button
               key={slide.src}

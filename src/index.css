@@ -17,6 +17,12 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   * {
@@ -176,7 +182,7 @@
 
 /* Indicadores (dots) del slider */
 .hero-slide-dot {
-  width: 26px;
+  width: 16px;
   height: 3px;
   border-radius: 9999px;
   background: rgba(250, 247, 240, 0.35);
@@ -184,13 +190,25 @@
   cursor: pointer;
 }
 
+@media (min-width: 640px) {
+  .hero-slide-dot {
+    width: 26px;
+  }
+}
+
 .hero-slide-dot:hover {
   background: rgba(212, 175, 55, 0.7);
 }
 
 .hero-slide-dot.is-active {
-  width: 40px;
+  width: 28px;
   background: #D4AF37;
+}
+
+@media (min-width: 640px) {
+  .hero-slide-dot.is-active {
+    width: 44px;
+  }
 }
 
 

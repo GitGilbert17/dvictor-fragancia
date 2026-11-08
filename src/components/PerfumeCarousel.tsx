@@ -311,7 +311,7 @@ export const PerfumeCarousel: React.FC<PerfumeCarouselProps> = ({
           if (isDraggingRef.current) return;
           onSelectPerfume(perfume);
         }}
-        className="w-[160px] xs:w-[185px] sm:w-[215px] md:w-[240px] shrink-0 group flex flex-col justify-between text-center select-none cursor-pointer"
+        className="w-[150px] min-[380px]:w-[175px] sm:w-[215px] md:w-[240px] lg:w-[250px] shrink-0 group flex flex-col justify-between text-center select-none cursor-pointer"
       >
         <ScrollRevealCard staggerIndex={index} enabled={isRevealActive}>
           {/* Contenedor de la botella con aspect ratio adaptativo */}

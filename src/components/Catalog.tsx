@@ -186,12 +186,12 @@ export const Catalog: React.FC<CatalogProps> = ({
           </div>
 
           {/* Quick Segmented Gender Control */}
-          <div className="flex items-center gap-1 bg-[#050505] p-1 rounded-md border border-[#262626]">
+          <div className="flex items-center gap-1 bg-[#050505] p-1 rounded-md border border-[#262626] w-full sm:w-auto overflow-x-auto">
             {(['Todos', 'Hombre', 'Mujer', 'Unisex'] as const).map((genderOption) => (
               <button
                 key={genderOption}
                 onClick={() => setFilters({ ...filters, gender: genderOption })}
-                className={`px-3 py-1.5 text-xs font-sans font-medium rounded transition-colors whitespace-nowrap cursor-pointer ${
+                className={`flex-1 sm:flex-initial text-center px-2.5 sm:px-3 py-1.5 text-xs font-sans font-medium rounded transition-colors whitespace-nowrap cursor-pointer ${
                   filters.gender === genderOption
                     ? 'bg-[#D4AF37] text-[#050505] font-semibold shadow-sm'
                     : 'text-[#B8B8B8] hover:text-[#FAF7F0]'
@@ -203,13 +203,13 @@ export const Catalog: React.FC<CatalogProps> = ({
           </div>
 
           {/* Sort & Mobile Filter Toggle */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <select
               value={filters.sortBy}
               onChange={(e) =>
                 setFilters({ ...filters, sortBy: e.target.value as FilterState['sortBy'] })
               }
-              className="bg-[#050505] border border-[#262626] text-[#FAF7F0] text-xs px-3 py-2.5 rounded-md focus:border-[#D4AF37] outline-none cursor-pointer"
+              className="flex-1 sm:flex-initial bg-[#050505] border border-[#262626] text-[#FAF7F0] text-xs px-3 py-2.5 rounded-md focus:border-[#D4AF37] outline-none cursor-pointer"
             >
               <option value="featured">Destacados / Más vendidos</option>
               <option value="price-asc">Precio: Menor a Mayor</option>
@@ -219,7 +219,7 @@ export const Catalog: React.FC<CatalogProps> = ({
 
             <button
               onClick={() => setShowFiltersMobile(!showFiltersMobile)}
-              className="md:hidden flex items-center gap-1.5 px-3 py-2.5 bg-[#050505] border border-[#262626] text-xs text-[#D4AF37] rounded-md"
+              className="lg:hidden flex items-center justify-center gap-1.5 px-3 py-2.5 bg-[#050505] border border-[#262626] text-xs text-[#D4AF37] rounded-md shrink-0 cursor-pointer"
             >
               <SlidersHorizontal className="w-3.5 h-3.5" />
               <span>Filtros</span>
