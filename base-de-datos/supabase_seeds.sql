@@ -1,6 +1,7 @@
 -- =====================================================
 -- Carga inicial de datos para D' Victor Fragancias
 -- Motor: PostgreSQL 15+ (Supabase)
+-- Compatible con: tienda_perfumes_supabase.sql
 -- =====================================================
 
 -- 1. Marcas / Casas perfumeras
@@ -23,7 +24,7 @@ INSERT INTO public.categorias (nombre, slug, activa) VALUES
 ('Perfumería Diseñador', 'perfumeria-disenador', true)
 ON CONFLICT (slug) DO NOTHING;
 
--- 3. Productos estrella
+-- 3. Productos estrella (con notas_salida, notas_corazon y notas_fondo como text[])
 -- Perfume 1: Tabac Doré Niche Millésime
 INSERT INTO public.productos (
   marca_id, categoria_id, nombre, slug, descripcion,
@@ -41,9 +42,9 @@ INSERT INTO public.productos (
   'Unisex',
   'Extrait de Parfum',
   'Gourmand / Especiada',
-  '["Hojas de Tabaco Rubio", "Cacao Silvestre", "Vainilla Negra"]'::jsonb,
-  '["Bálsamo de Tolú", "Benjuí de Siam", "Higo Seco"]'::jsonb,
-  '["Oud Tailandés Añejado", "Cedro del Himalaya", "Ámbar Cálido"]'::jsonb,
+  ARRAY['Hojas de Tabaco Rubio', 'Cacao Silvestre', 'Vainilla Negra'],
+  ARRAY['Bálsamo de Tolú', 'Benjuí de Siam', 'Higo Seco'],
+  ARRAY['Oud Tailandés Añejado', 'Cedro del Himalaya', 'Ámbar Cálido'],
   '16+ horas',
   'Enorme',
   'Noches frescas, ocasiones de máxima elegancia y coleccionistas exigentes',
@@ -68,9 +69,9 @@ INSERT INTO public.productos (
   'Unisex',
   'Eau de Parfum',
   'Cítrica / Fresca',
-  '["Cardamomo de Ceilán", "Bergamota Fresca", "Limón Italiano"]'::jsonb,
-  '["Acorde de Cannabis Suave", "Grosella Negra", "Canela"]'::jsonb,
-  '["Pachulí de Indonesia", "Haba Tonka", "Almizcle Blanco", "Benjuí"]'::jsonb,
+  ARRAY['Cardamomo de Ceilán', 'Bergamota Fresca', 'Limón Italiano'],
+  ARRAY['Acorde de Cannabis Suave', 'Grosella Negra', 'Canela'],
+  ARRAY['Pachulí de Indonesia', 'Haba Tonka', 'Almizcle Blanco', 'Benjuí'],
   '12+ horas',
   'Pronunciada',
   'Eventos diurnos de lujo, tardes en la marina y salidas sofisticadas',
@@ -95,9 +96,9 @@ INSERT INTO public.productos (
   'Unisex',
   'Extrait de Parfum',
   'Amaderada',
-  '["Azafrán Real de Persia", "Bergamota Dorada", "Cardamomo de Ceilán"]'::jsonb,
-  '["Oud de Assam Envejecido", "Rosa de Damasco", "Papiro Ahumado"]'::jsonb,
-  '["Ámbar Cristalino", "Madera de Guayaco", "Vainilla Bourbon", "Almizcle Sedoso"]'::jsonb,
+  ARRAY['Azafrán Real de Persia', 'Bergamota Dorada', 'Cardamomo de Ceilán'],
+  ARRAY['Oud de Assam Envejecido', 'Rosa de Damasco', 'Papiro Ahumado'],
+  ARRAY['Ámbar Cristalino', 'Madera de Guayaco', 'Vainilla Bourbon', 'Almizcle Sedoso'],
   '14+ horas',
   'Enorme',
   'Galas nocturnas, recepciones formales y ocasiones de alta distinción',
