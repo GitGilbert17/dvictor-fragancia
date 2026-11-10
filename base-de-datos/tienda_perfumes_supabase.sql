@@ -476,3 +476,4 @@ create policy "favoritos: gestionar los propios"
 -- Para convertir a alguien en admin (ejecútalo tú, en el SQL Editor):
 --   update public.perfiles set rol = 'admin' where email = 'tu@correo.com';
 -- =====================================================
+
