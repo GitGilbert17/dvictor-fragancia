@@ -1,20 +1,24 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# D’ Victor Fragancias
 
-# Run and deploy your AI Studio app
+Tienda de perfumes para República Dominicana, construida con React, TypeScript,
+Vite y Tailwind CSS. El catálogo es estático y el checkout es una demostración.
 
-This contains everything you need to run your app locally.
+Desde la raíz del repositorio:
 
-View your app in AI Studio: https://ai.studio/apps/16debea3-4fad-4f13-a6bb-19be1df63e4b
+```bash
+npm ci
+npm run dev
+```
 
-## Run Locally
+La aplicación abre en http://localhost:3000. Requiere Node.js 22.12 o superior.
 
-**Prerequisites:**  Node.js
+| Carpeta | Contenido |
+|---|---|
+| [Frontend](Frontend/) | Aplicación, componentes, estilos, imágenes y configuración del frontend |
+| [backend](backend/) | Área reservada para el servidor; todavía no existe una API |
+| [base-de-datos](base-de-datos/) | Área reservada para persistencia y Prisma; todavía no hay una base de datos |
+| [documentos](documentos/README.md) | Instalación, arquitectura, mapa del código y verificación |
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Los comandos, dependencias y el archivo de bloqueo permanecen en la raíz para
+ejecutar el proyecto completo desde un único lugar. `LICENSE` y `.gitignore`
+también se mantienen en la raíz por su alcance sobre todo el repositorio.
