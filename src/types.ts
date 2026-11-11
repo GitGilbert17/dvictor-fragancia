@@ -92,3 +92,79 @@ export interface CheckoutFormData {
   paymentMethod: 'contra-entrega' | 'transferencia' | 'tarjeta' | 'whatsapp';
   notes?: string;
 }
+
+// ── Usuarios y sesión (login de visitante + panel admin) ───────────────────
+export type UserRole = 'cliente' | 'admin';
+
+// Dirección guardada en la cuenta del visitante (checkout y "Mi Cuenta")
+export interface Address {
+  label: string;
+  province: string;
+  sector: string;
+  address: string;
+  isDefault?: boolean;
+}
+
+// Usuario público (sin contraseña). Lo consumen Header, CartDrawer y AccountView.
+export interface User {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: UserRole;
+  addresses: Address[];
+  createdAt: string;
+}
+
+// Registro de nuevos visitantes (AuthModal → authService.register)
+export interface RegisterFormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+}
+
+// ── Pedidos reales (checkout → ordersService → panel admin) ─────────────────
+export type OrderStatus =
+  | 'pendiente'
+  | 'confirmado'
+  | 'pagado'
+  | 'enviado'
+  | 'entregado'
+  | 'cancelado';
+
+// Ítem congelado de un pedido (sobrevive aunque el perfume cambie o se borre)
+export interface OrderItem {
+  perfumeId: string;
+  perfumeName: string;
+  house: string;
+  image: string;
+  sizeMl: number;
+  priceDOP: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  userId: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  items: OrderItem[];
+  subtotal: number;
+  discountPercent: number;
+  discountAmount: number;
+  shippingCost: number;
+  total: number;
+  couponCode?: string;
+  shippingAddress: {
+    province: string;
+    sector: string;
+    address: string;
+    deliveryType: 'express-sd' | 'nacional';
+  };
+  paymentMethod: CheckoutFormData['paymentMethod'];
+  notes?: string;
+  status: OrderStatus;
+  createdAt: string;
+}
