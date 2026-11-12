@@ -98,6 +98,28 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     onOrderPlaced(orderId, finalTotal, formData);
   };
 
+  // WhatsApp Direct Link
+  const getWhatsAppCartUrl = () => {
+    const itemsText = items
+      .map(
+        (item) =>
+          `• ${item.quantity}x ${item.perfume.name} (${item.sizeMl} ml) - RD$ ${(item.priceDOP * item.quantity).toLocaleString()}`
+      )
+      .join('\n');
+
+    const message = encodeURIComponent(
+      `¡Hola D’ Victor Fragancias! Me gustaría ordenar los siguientes perfumes de la tienda web:\n\n` +
+        itemsText +
+        `\n\n💰 Subtotal: RD$ ${subtotal.toLocaleString()}` +
+        (appliedDiscountPercent > 0 ? `\n🏷️ Descuento (${appliedDiscountPercent}%): -RD$ ${discountAmount.toLocaleString()}` : '') +
+        `\n🚚 Envío: ${isShippingFree ? 'Gratis' : `RD$ ${shippingCost.toLocaleString()}`}` +
+        `\n✨ Total Estimado: RD$ ${finalTotal.toLocaleString()}\n\n` +
+        `¿Tienen disponibilidad para coordinar el envío? ¡Muchas gracias!`
+    );
+
+    return `https://wa.me/18295553842?text=${message}`;
+  };
+
   return (
     <div
       role="dialog"
@@ -482,13 +504,25 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             </div>
 
             {step === 'cart' ? (
-              <button
-                onClick={() => setStep('checkout')}
-                className="w-full py-3 bg-gradient-to-r from-[#D4AF37] to-[#B38F24] hover:from-[#FFD76A] hover:to-[#D4AF37] text-[#050505] rounded-md font-sans text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_16px_rgba(212,175,55,0.25)]"
-              >
-                <span>Proceder al Pago</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              <div className="space-y-2">
+                <a
+                  href={getWhatsAppCartUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 text-[#25D366] hover:text-white rounded-md font-sans text-xs font-semibold uppercase tracking-[0.14em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                  <span>Pedir por WhatsApp al Proveedor</span>
+                </a>
+
+                <button
+                  onClick={() => setStep('checkout')}
+                  className="w-full py-3 bg-gradient-to-r from-[#D4AF37] to-[#B38F24] hover:from-[#FFD76A] hover:to-[#D4AF37] text-[#050505] rounded-md font-sans text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_16px_rgba(212,175,55,0.25)]"
+                >
+                  <span>Proceder al Pago en Línea</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             ) : (
               <button
                 type="submit"

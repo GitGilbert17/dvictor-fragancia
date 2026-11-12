@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id          BigInt    @id @default(autoincrement())
+  nombre      String?
+  descripcion String?
+  usuarios    Usuario[]
+
+  @@map("roles")
+}
+
+model Usuario {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  rol_id         BigInt?
+  nombre         String?
+  email          String?
+  password_hash  String?
+  activo         Boolean?  @default(true)
+  fecha_creacion DateTime? @default(now()) @db.Timestamptz
+
+  rol       Role?      @relation(fields: [rol_id], references: [id])
+  productos Producto[]
+
+  @@map("usuarios")
+}
+
+model Categoria {
+  id        BigInt     @id @default(autoincrement())
+  nombre    String?
+  productos Producto[]
+
+  @@map("categorias")
+}
+
+model Producto {
+  id                BigInt    @id @default(autoincrement())
+  categoria_id      BigInt?
+  usuario_id        String?   @db.Uuid
+  nombre            String?
+  marca             String?
+  imagen_url        String?
+  genero            String?
+  concentracion     String?
+  familia_olfativa  String?
+  notas_principales String?
+  tamano_ml         Int?      @db.SmallInt
+  precio            Decimal?  @db.Decimal
+  destacado         Boolean?  @default(false)
+  disponible        Boolean?  @default(true)
+  fecha_creacion    DateTime? @default(now()) @db.Timestamptz
+
+  categoria Categoria? @relation(fields: [categoria_id], references: [id])
+  usuario   Usuario?   @relation(fields: [usuario_id], references: [id])
+
+  @@map("productos")
+}

@@ -32,6 +32,8 @@ import { SearchModal } from './components/SearchModal';
 import { WishlistModal } from './components/WishlistModal';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 import { Footer } from './components/Footer';
+import { AdminPage } from './components/AdminPage';
+import { productService } from './services/productService';
 import { PERFUMES_DATA } from './data/perfumes';
 import { Perfume, CartItem, CheckoutFormData } from './types';
 
@@ -51,6 +53,51 @@ export default function App() {
     total: number;
     formData: CheckoutFormData;
   } | null>(null);
+
+  // Separación de páginas: comprueba si la URL actual es la página del administrador (/admin o #admin)
+  const [isAdminPage, setIsAdminPage] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    return path === '/admin' || path.startsWith('/admin') || hash === '#admin' || hash.startsWith('#/admin');
+  });
+
+  useEffect(() => {
+    const checkRoute = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      setIsAdminPage(path === '/admin' || path.startsWith('/admin') || hash === '#admin' || hash.startsWith('#/admin'));
+    };
+
+    window.addEventListener('popstate', checkRoute);
+    window.addEventListener('hashchange', checkRoute);
+    return () => {
+      window.removeEventListener('popstate', checkRoute);
+      window.removeEventListener('hashchange', checkRoute);
+    };
+  }, []);
+
+  // Catálogo sincronizado con el Backend (con respaldo de PERFUMES_DATA)
+  const [perfumes, setPerfumes] = useState<Perfume[]>(PERFUMES_DATA);
+  const [isLoadingPerfumes, setIsLoadingPerfumes] = useState(false);
+
+  const loadPerfumes = async () => {
+    try {
+      setIsLoadingPerfumes(true);
+      const data = await productService.getClientPerfumes();
+      if (data && data.length > 0) {
+        setPerfumes(data);
+      }
+    } catch (err) {
+      console.warn('Backend no disponible, usando catálogo local:', err);
+    } finally {
+      setIsLoadingPerfumes(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPerfumes();
+  }, []);
 
   // Persistent Cart state
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -160,7 +207,7 @@ export default function App() {
   };
 
   const handleSelectPerfumeById = (perfumeId: string) => {
-    const found = PERFUMES_DATA.find((p) => p.id === perfumeId);
+    const found = perfumes.find((p) => p.id === perfumeId) || PERFUMES_DATA.find((p) => p.id === perfumeId);
     if (found) {
       setSelectedPerfume(found);
     }
@@ -181,12 +228,29 @@ export default function App() {
     }
   };
 
-  // Filter datasets for carousels
-  const newArrivalsList = PERFUMES_DATA.filter((p) => p.isNew || p.id.includes('tabac') || p.id.includes('desir') || p.id.includes('elysium'));
-  const bestSellersList = PERFUMES_DATA.filter((p) => p.isBestseller);
+  // Filtrar listas dinámicas para carruseles
+  const newArrivalsList = perfumes.filter((p) => p.isNew || p.id.includes('tabac') || p.id.includes('desir') || p.id.includes('elysium'));
+  const bestSellersList = perfumes.filter((p) => p.isBestseller);
 
-  // ── LAYOUT PRINCIPAL ───────────────────────────────────────────────────────
-  // Orden visual: Header → contenido según pestaña → Footer → modales.
+  // ── PÁGINA INDEPENDIENTE DEL ADMINISTRADOR (/admin o #admin) ─────────────
+  // Si la ruta es /admin, se renderiza exclusivamente la vista de administración,
+  // totalmente aislada de la landing page pública.
+  if (isAdminPage) {
+    return (
+      <AdminPage
+        onProductsChanged={loadPerfumes}
+        onGoToStore={() => {
+          window.history.pushState({}, '', '/');
+          setIsAdminPage(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
+    );
+  }
+
+  // ── LANDING PAGE PÚBLICA DEL CLIENTE ─────────────────────────────────────
+  // Orden visual: Header → contenido según pestaña (Inicio/Catálogo) → Footer → modales.
+  // Los clientes NO ven ningún acceso ni botón hacia el panel de administración.
   return (
     <div className="min-h-screen bg-[#050505] text-[#FAF7F0] flex flex-col font-sans selection:bg-[#D4AF37] selection:text-[#050505]">
       {/* Minimalist Top Bar (MaxAroma style: Zone 1 - Zone 2 - Zone 3) */}
@@ -216,7 +280,7 @@ export default function App() {
               <PerfumeCarousel
                 title="Nuevas Llegadas"
                 subtitle="New Arrivals 2026"
-                perfumes={newArrivalsList.length > 0 ? newArrivalsList : PERFUMES_DATA.slice(0, 6)}
+                perfumes={newArrivalsList.length > 0 ? newArrivalsList : perfumes.slice(0, 6)}
                 onSelectPerfume={(perfume) => setSelectedPerfume(perfume)}
                 onAddToCart={(perfume, sizeMl) => handleAddToCart(perfume, sizeMl, 1)}
                 onSeeMore={() => handleNavigate('catalogo')}
@@ -227,7 +291,7 @@ export default function App() {
             {/* 3. Advertising Campaign Spotlights & 4-Grid Editorial (References 4 & 5: Love Flame, Desirtoxic, Bortnikoff) */}
             <div id="campaigns">
               <CampaignBanners
-                perfumes={PERFUMES_DATA}
+                perfumes={perfumes}
                 onSelectPerfumeById={handleSelectPerfumeById}
               />
             </div>
@@ -253,7 +317,7 @@ export default function App() {
         {activeTab === 'catalogo' && (
           <div key={`catalogo-${tabKey}`} className="page-transition-enter pt-4">
             <Catalog
-              perfumes={PERFUMES_DATA}
+              perfumes={perfumes}
               onSelectPerfume={(perfume) => setSelectedPerfume(perfume)}
               onAddToCart={(perfume, sizeMl) => handleAddToCart(perfume, sizeMl, 1)}
               wishlist={wishlist}
@@ -292,7 +356,7 @@ export default function App() {
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        perfumes={PERFUMES_DATA}
+        perfumes={perfumes}
         onSelectPerfume={(perfume) => setSelectedPerfume(perfume)}
       />
 
@@ -301,7 +365,7 @@ export default function App() {
         isOpen={isWishlistOpen}
         onClose={() => setIsWishlistOpen(false)}
         wishlistIds={wishlist}
-        perfumes={PERFUMES_DATA}
+        perfumes={perfumes}
         onSelectPerfume={(perfume) => setSelectedPerfume(perfume)}
         onAddToCart={(perfume, sizeMl) => handleAddToCart(perfume, sizeMl, 1)}
         onToggleWishlist={handleToggleWishlist}

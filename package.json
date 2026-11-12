@@ -5,6 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config Frontend/vite.config.ts --port=3000 --host=0.0.0.0",
+    "server": "tsx backend/src/server.ts",
+    "server:dev": "tsx watch backend/src/server.ts",
+    "prisma:generate": "prisma generate --schema=base-de-datos/prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema=base-de-datos/prisma/schema.prisma",
+    "prisma:seed": "tsx backend/src/prisma/seed.ts",
+    "prisma:studio": "prisma studio --schema=base-de-datos/prisma/schema.prisma",
     "build": "vite build --config Frontend/vite.config.ts",
     "preview": "vite preview --config Frontend/vite.config.ts",
     "clean": "node Frontend/scripts/clean.mjs",
@@ -19,18 +25,24 @@
     "react-dom": "^19.0.1",
     "vite": "^8.3.0",
     "express": "^4.21.2",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
+    "@prisma/client": "^6.4.1",
     "motion": "^12.23.24"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/cors": "^2.8.17",
     "autoprefixer": "^10.4.21",
-    "esbuild": "^0.25.0",
+    "prisma": "^6.4.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
-    "typescript": "^7.0.2",
+    "typescript": "^5.8.2",
     "@types/express": "^4.17.21"
+  },
+  "prisma": {
+    "schema": "base-de-datos/prisma/schema.prisma"
   }
 }
