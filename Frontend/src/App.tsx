@@ -20,7 +20,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { PerfumeCarousel } from './components/PerfumeCarousel';
@@ -32,7 +32,6 @@ import { SearchModal } from './components/SearchModal';
 import { WishlistModal } from './components/WishlistModal';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 import { Footer } from './components/Footer';
-import { AdminPage } from './components/AdminPage';
 import { productService } from './services/productService';
 import { PERFUMES_DATA } from './data/perfumes';
 import { Perfume, CartItem, CheckoutFormData } from './types';
@@ -53,29 +52,6 @@ export default function App() {
     total: number;
     formData: CheckoutFormData;
   } | null>(null);
-
-  // Separación de páginas: comprueba si la URL actual es la página del administrador (/admin o #admin)
-  const [isAdminPage, setIsAdminPage] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    const path = window.location.pathname.toLowerCase();
-    const hash = window.location.hash.toLowerCase();
-    return path === '/admin' || path.startsWith('/admin') || hash === '#admin' || hash.startsWith('#/admin');
-  });
-
-  useEffect(() => {
-    const checkRoute = () => {
-      const path = window.location.pathname.toLowerCase();
-      const hash = window.location.hash.toLowerCase();
-      setIsAdminPage(path === '/admin' || path.startsWith('/admin') || hash === '#admin' || hash.startsWith('#/admin'));
-    };
-
-    window.addEventListener('popstate', checkRoute);
-    window.addEventListener('hashchange', checkRoute);
-    return () => {
-      window.removeEventListener('popstate', checkRoute);
-      window.removeEventListener('hashchange', checkRoute);
-    };
-  }, []);
 
   // Catálogo sincronizado con el Backend (con respaldo de PERFUMES_DATA)
   const [perfumes, setPerfumes] = useState<Perfume[]>(PERFUMES_DATA);
@@ -231,22 +207,6 @@ export default function App() {
   // Filtrar listas dinámicas para carruseles
   const newArrivalsList = perfumes.filter((p) => p.isNew || p.id.includes('tabac') || p.id.includes('desir') || p.id.includes('elysium'));
   const bestSellersList = perfumes.filter((p) => p.isBestseller);
-
-  // ── PÁGINA INDEPENDIENTE DEL ADMINISTRADOR (/admin o #admin) ─────────────
-  // Si la ruta es /admin, se renderiza exclusivamente la vista de administración,
-  // totalmente aislada de la landing page pública.
-  if (isAdminPage) {
-    return (
-      <AdminPage
-        onProductsChanged={loadPerfumes}
-        onGoToStore={() => {
-          window.history.pushState({}, '', '/');
-          setIsAdminPage(false);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-      />
-    );
-  }
 
   // ── LANDING PAGE PÚBLICA DEL CLIENTE ─────────────────────────────────────
   // Orden visual: Header → contenido según pestaña (Inicio/Catálogo) → Footer → modales.

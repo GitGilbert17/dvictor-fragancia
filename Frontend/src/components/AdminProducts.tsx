@@ -48,6 +48,7 @@ export const AdminProducts: React.FC<AdminProductsProps> = ({ onProductsChanged 
     categoria_id: 1,
     precio: 15000,
     tamano_ml: 50,
+    stock: null,
     genero: 'Unisex',
     concentracion: 'Eau de Parfum',
     familia_olfativa: 'Amaderada',
@@ -106,6 +107,7 @@ export const AdminProducts: React.FC<AdminProductsProps> = ({ onProductsChanged 
       categoria_id: prod.categoria_id ? Number(prod.categoria_id) : 1,
       precio: Number(prod.precio),
       tamano_ml: prod.tamano_ml || 50,
+      stock: prod.stock ?? null,
       genero: prod.genero || 'Unisex',
       concentracion: prod.concentracion || 'Eau de Parfum',
       familia_olfativa: prod.familia_olfativa || 'Amaderada',
@@ -368,6 +370,7 @@ export const AdminProducts: React.FC<AdminProductsProps> = ({ onProductsChanged 
                 <th className="py-3.5 px-4">Casa / Marca</th>
                 <th className="py-3.5 px-4">Categoría / Familia</th>
                 <th className="py-3.5 px-4">Presentación</th>
+                <th className="py-3.5 px-4">Stock</th>
                 <th className="py-3.5 px-4">Precio (DOP)</th>
                 <th className="py-3.5 px-4 text-center">Favorito</th>
                 <th className="py-3.5 px-4 text-center">Disponibilidad</th>
@@ -377,7 +380,7 @@ export const AdminProducts: React.FC<AdminProductsProps> = ({ onProductsChanged 
             <tbody className="divide-y divide-[#1f1f1f]">
               {isLoading ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-[#8E8E93]">
+                  <td colSpan={9} className="py-12 text-center text-[#8E8E93]">
                     <div className="flex flex-col items-center justify-center gap-2">
                       <RefreshCw className="w-6 h-6 animate-spin text-[#D4AF37]" />
                       <span>Cargando catálogo desde el backend...</span>
@@ -386,7 +389,7 @@ export const AdminProducts: React.FC<AdminProductsProps> = ({ onProductsChanged 
                 </tr>
               ) : filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-[#8E8E93]">
+                  <td colSpan={9} className="py-12 text-center text-[#8E8E93]">
                     No se encontraron perfumes con los filtros seleccionados.
                   </td>
                 </tr>
@@ -432,6 +435,11 @@ export const AdminProducts: React.FC<AdminProductsProps> = ({ onProductsChanged 
                     {/* Size */}
                     <td className="py-3 px-4 text-[#B8B8B8] font-mono">
                       {prod.tamano_ml || 50} ml
+                    </td>
+
+                    {/* Stock */}
+                    <td className="py-3 px-4 text-[#B8B8B8] font-mono">
+                      {prod.stock ?? '—'}
                     </td>
 
                     {/* Price */}
@@ -598,6 +606,24 @@ export const AdminProducts: React.FC<AdminProductsProps> = ({ onProductsChanged 
                     min={1}
                     value={formData.tamano_ml}
                     onChange={(e) => setFormData({ ...formData, tamano_ml: Number(e.target.value) })}
+                    className="w-full px-3 py-2 bg-[#080808] border border-[#262626] rounded text-xs text-[#FAF7F0] font-mono focus:outline-none focus:border-[#D4AF37]"
+                  />
+                </div>
+
+                {/* Stock */}
+                <div>
+                  <label className="block text-[10px] text-[#D4AF37] uppercase font-semibold tracking-wider mb-1">
+                    Stock
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={formData.stock ?? ''}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      setFormData({ ...formData, stock: v === '' ? null : Number(v) });
+                    }}
+                    placeholder="Ej. 10"
                     className="w-full px-3 py-2 bg-[#080808] border border-[#262626] rounded text-xs text-[#FAF7F0] font-mono focus:outline-none focus:border-[#D4AF37]"
                   />
                 </div>

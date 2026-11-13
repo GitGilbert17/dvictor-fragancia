@@ -11,6 +11,7 @@ export interface SeedProduct {
   notas_principales: string;
   tamano_ml: number;
   precio: number;
+  stock?: number | null;
   destacado: boolean;
   disponible: boolean;
 }

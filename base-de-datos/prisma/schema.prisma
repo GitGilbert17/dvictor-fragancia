@@ -52,6 +52,7 @@ model Producto {
   notas_principales String?
   tamano_ml         Int?      @db.SmallInt
   precio            Decimal?  @db.Decimal
+  stock             Int?      @db.SmallInt
   destacado         Boolean?  @default(false)
   disponible        Boolean?  @default(true)
   fecha_creacion    DateTime? @default(now()) @db.Timestamptz

@@ -130,6 +130,7 @@ export class ProductController {
         notas_principales,
         tamano_ml,
         precio,
+        stock,
         destacado,
         disponible,
       } = req.body;
@@ -152,6 +153,7 @@ export class ProductController {
         notas_principales,
         tamano_ml: tamano_ml ? parseInt(tamano_ml, 10) : undefined,
         precio: parseFloat(precio),
+        stock: stock !== undefined && stock !== null && stock !== '' ? parseInt(stock, 10) : null,
         destacado: destacado !== undefined ? Boolean(destacado) : false,
         disponible: disponible !== undefined ? Boolean(disponible) : true,
       });
@@ -193,7 +195,21 @@ export class ProductController {
         });
       }
 
-      const updated = await ProductRepository.update(id, req.body);
+      const body = { ...req.body };
+      if (body.categoria_id !== undefined && body.categoria_id !== null && body.categoria_id !== '') {
+        body.categoria_id = parseInt(body.categoria_id, 10);
+      }
+      if (body.tamano_ml !== undefined && body.tamano_ml !== null && body.tamano_ml !== '') {
+        body.tamano_ml = parseInt(body.tamano_ml, 10);
+      }
+      if (body.precio !== undefined && body.precio !== null && body.precio !== '') {
+        body.precio = parseFloat(body.precio);
+      }
+      if (body.stock !== undefined) {
+        body.stock = body.stock === null || body.stock === '' ? null : parseInt(body.stock, 10);
+      }
+
+      const updated = await ProductRepository.update(id, body);
       res.json({
         success: true,
         message: 'Perfume actualizado exitosamente',

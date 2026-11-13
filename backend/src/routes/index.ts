@@ -1,12 +1,16 @@
 import { Router } from 'express';
 import productRoutes from './productRoutes.js';
 import categoryRoutes from './categoryRoutes.js';
+import authRoutes from './authRoutes.js';
+import userRoutes from './userRoutes.js';
 import { isDatabaseReady } from '../config/prisma.js';
 
 const apiRouter = Router();
 
 apiRouter.use('/productos', productRoutes);
 apiRouter.use('/categorias', categoryRoutes);
+apiRouter.use('/auth', authRoutes);
+apiRouter.use('/usuarios', userRoutes);
 
 // Health check y estado del sistema
 apiRouter.get('/health', (_req, res) => {

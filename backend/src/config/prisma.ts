@@ -30,10 +30,10 @@ export async function checkDatabaseConnection(): Promise<boolean> {
 
   try {
     const prisma = getPrismaClient();
-    // Test simple de conexión con timeout corto para no demorar el inicio del servidor
+    // Test de conexión con timeout generoso para handshakes TLS con Supabase
     const connectPromise = prisma.$queryRaw`SELECT 1`;
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Tiempo de espera agotado al conectar a PostgreSQL (1.5s)')), 1500)
+      setTimeout(() => reject(new Error('Tiempo de espera agotado al conectar a PostgreSQL en Supabase')), 8000)
     );
 
     await Promise.race([connectPromise, timeoutPromise]);

@@ -15,8 +15,29 @@ export default defineConfig(() => {
     build: {
       outDir: path.resolve(repoDir, 'dist'),
       emptyOutDir: true,
+      rollupOptions: {
+        input: {
+          main: path.resolve(frontendDir, 'index.html'),
+          admin: path.resolve(frontendDir, 'admin.html'),
+        },
+      },
     },
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      // Rewrite /admin → /admin.html para que la URL quede limpia
+      {
+        name: 'rewrite-admin',
+        configureServer(server) {
+          server.middlewares.use((req, _res, next) => {
+            if (req.url === '/admin' || req.url === '/admin/') {
+              req.url = '/admin.html';
+            }
+            next();
+          });
+        },
+      },
+      react(),
+      tailwindcss(),
+    ],
     resolve: {
       alias: {
         '@': frontendDir,

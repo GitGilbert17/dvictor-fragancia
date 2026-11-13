@@ -21,6 +21,7 @@ export interface BackendProduct {
   notas_principales?: string | null;
   tamano_ml?: number | null;
   precio: number;
+  stock?: number | null;
   destacado?: boolean;
   disponible?: boolean;
   fecha_creacion?: string;
@@ -42,6 +43,7 @@ export interface ProductFormData {
   notas_principales?: string;
   tamano_ml?: number;
   precio: number;
+  stock?: number | null;
   destacado?: boolean;
   disponible?: boolean;
 }

@@ -13,6 +13,7 @@ export interface ProductInput {
   notas_principales?: string;
   tamano_ml?: number;
   precio: number;
+  stock?: number | null;
   destacado?: boolean;
   disponible?: boolean;
 }
@@ -43,6 +44,7 @@ let localProducts = INITIAL_PRODUCTS.map((p, idx) => {
     notas_principales: p.notas_principales,
     tamano_ml: p.tamano_ml,
     precio: p.precio,
+    stock: (p as any).stock ?? null,
     destacado: p.destacado,
     disponible: p.disponible,
     fecha_creacion: new Date().toISOString(),
@@ -168,6 +170,7 @@ export class ProductRepository {
           notas_principales: data.notas_principales || '',
           tamano_ml: data.tamano_ml || 50,
           precio: data.precio,
+          stock: data.stock !== undefined ? data.stock : null,
           destacado: data.destacado ?? false,
           disponible: data.disponible ?? true,
         },
@@ -191,6 +194,7 @@ export class ProductRepository {
       notas_principales: data.notas_principales || '',
       tamano_ml: data.tamano_ml || 50,
       precio: Number(data.precio),
+      stock: data.stock !== undefined ? data.stock : null,
       destacado: data.destacado ?? false,
       disponible: data.disponible ?? true,
       fecha_creacion: new Date().toISOString(),
@@ -217,6 +221,7 @@ export class ProductRepository {
       if (data.notas_principales !== undefined) updateData.notas_principales = data.notas_principales;
       if (data.tamano_ml !== undefined) updateData.tamano_ml = data.tamano_ml;
       if (data.precio !== undefined) updateData.precio = data.precio;
+      if (data.stock !== undefined) updateData.stock = data.stock;
       if (data.destacado !== undefined) updateData.destacado = data.destacado;
       if (data.disponible !== undefined) updateData.disponible = data.disponible;
 
@@ -239,6 +244,7 @@ export class ProductRepository {
       ...current,
       ...data,
       precio: data.precio !== undefined ? Number(data.precio) : current.precio,
+      stock: data.stock !== undefined ? data.stock : (current as any).stock ?? null,
       categoria_id: catId,
       categoria: cat,
     };
